@@ -1,19 +1,18 @@
 package com.Healthtech.Backend.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
-@Entity
-@Table(name = "ClinicalHistory")
-@Data
+
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "ClinicalHistory")
 public class ClinicalHistoryEntity {
 
     @Id
@@ -21,7 +20,11 @@ public class ClinicalHistoryEntity {
     private Long idClinicalHistory;
 
     private String medications;
+
     private String allergies;
+
+    @Column(nullable = false)
+    private boolean state = true;
 
     @ManyToMany(fetch = FetchType.EAGER,targetEntity = ChronicDiseasesEntity.class,cascade = CascadeType.PERSIST)
     @JoinTable(
@@ -31,4 +34,12 @@ public class ClinicalHistoryEntity {
     )
     private Set<ChronicDiseasesEntity> chronicDiseases;
 
+    @Override
+    public String toString() {
+        return "ClinicalHistoryEntity{" +
+                ", medications='" + medications + '\'' +
+                ", allergies='" + allergies + '\'' +
+                ", state=" + state +
+                '}';
+    }
 }

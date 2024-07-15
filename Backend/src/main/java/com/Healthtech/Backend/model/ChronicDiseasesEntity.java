@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "ChronicDiseases")
@@ -21,8 +20,7 @@ public class ChronicDiseasesEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idChronicDiseases;
 
-    @Column(nullable = false)
-    private boolean state = true;
+
     @Column(length = 50)
     private String name;
     private LocalDate startDate;

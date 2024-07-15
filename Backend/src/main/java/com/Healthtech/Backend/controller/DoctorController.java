@@ -1,11 +1,8 @@
 package com.Healthtech.Backend.controller;
 
 
-import com.Healthtech.Backend.dto.request.ClinicalHistoryRequestDTO;
 import com.Healthtech.Backend.dto.request.DoctorRequestDTO;
-import com.Healthtech.Backend.model.ClinicalHistoryEntity;
 import com.Healthtech.Backend.model.DoctorEntity;
-import com.Healthtech.Backend.service.ClinicalHistoryService;
 import com.Healthtech.Backend.service.DoctorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

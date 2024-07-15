@@ -1,10 +1,6 @@
 package com.Healthtech.Backend.service.impl;
 
-import com.Healthtech.Backend.dto.request.ChronicDiseasesRequestDTO;
-import com.Healthtech.Backend.dto.request.ClinicalHistoryRequestDTO;
 import com.Healthtech.Backend.dto.request.DoctorRequestDTO;
-import com.Healthtech.Backend.model.ChronicDiseasesEntity;
-import com.Healthtech.Backend.model.ClinicalHistoryEntity;
 import com.Healthtech.Backend.model.DoctorEntity;
 import com.Healthtech.Backend.repository.DoctorRepository;
 import com.Healthtech.Backend.service.DoctorService;
@@ -14,8 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service

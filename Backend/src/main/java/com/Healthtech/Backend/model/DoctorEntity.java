@@ -2,6 +2,7 @@ package com.Healthtech.Backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -13,6 +14,7 @@ import java.util.Date;
 @Setter
 @Builder
 public class DoctorEntity implements Serializable{
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id

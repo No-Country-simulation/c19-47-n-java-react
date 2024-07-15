@@ -1,4 +1,4 @@
-package com.Healthtech.Backend;
+package com.Healthtech.Backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 

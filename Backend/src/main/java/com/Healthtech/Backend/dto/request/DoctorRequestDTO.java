@@ -2,10 +2,7 @@ package com.Healthtech.Backend.dto.request;
 
 import jakarta.persistence.Column;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,8 +24,8 @@ public class DoctorRequestDTO {
     private Date birthDate;
     @NotBlank(message = "Documentation can not be blank")
     private String documentation;
-    @Valid
-    private Set<DoctorRequestDTO> doctor;
+//    @Valid
+//    private Set<DoctorRequestDTO> doctor;
     @NotBlank(message = "Gender can not be null")
     private String gender;
     @NotBlank(message = "Specialty can not be null")
@@ -36,5 +33,8 @@ public class DoctorRequestDTO {
     @NotNull(message = "License can not be blank")
     //@Pattern(regexp = "^[0-9]", message = "License must be numeric")
     private Integer license;
+    @Email(message = "Not a valid email address")
+    private String email;
+
 
 }

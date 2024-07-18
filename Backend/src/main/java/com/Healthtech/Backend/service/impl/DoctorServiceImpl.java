@@ -38,6 +38,7 @@ public class DoctorServiceImpl implements DoctorService {
                 .gender(doctorRequestDTO.getGender())
                 .specialty((doctorRequestDTO.getSpecialty()))
                 .license(doctorRequestDTO.getLicense())
+                .email(doctorRequestDTO.getEmail())
                 .build();
 
         log.info("DoctorEntity: {}", doctor.toString());

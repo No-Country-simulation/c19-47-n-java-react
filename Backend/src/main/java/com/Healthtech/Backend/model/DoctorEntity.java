@@ -34,6 +34,8 @@ public class DoctorEntity implements Serializable{
     private String gender;
     @Column(name = "Specialty", length = 50)
     private String specialty;
+    @Column(name = "Email", unique = true,length = 150)
+    private String email;
     @Column(name = "License", length = 20)
     private Integer license;
 }

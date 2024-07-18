@@ -34,7 +34,4 @@ public class PacientEntity implements Serializable{
     private String gender;
     @Column(name = "Medical_Insurance", length = 50)
     private String medicalInsurance;
-    //Estado del registro false == borrado - true == vigente
-    @Column(name = "is_deleted", nullable = false)
-    private boolean deleted = false;
 }

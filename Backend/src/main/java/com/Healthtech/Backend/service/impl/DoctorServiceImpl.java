@@ -28,7 +28,6 @@ public class DoctorServiceImpl implements DoctorService {
     @Transactional
     public DoctorEntity save(DoctorRequestDTO doctorRequestDTO) {
 
-
         // Mapeo de ClinicalHistoryRequestDTO a ClinicalHistoryEntity
         DoctorEntity doctor = DoctorEntity.builder()
                 //.state(true) // Por defecto se crea activo
@@ -36,6 +35,9 @@ public class DoctorServiceImpl implements DoctorService {
                 .lastName(doctorRequestDTO.getLastName())
                 .documentation(doctorRequestDTO.getDocumentation())
                 .birthDate(doctorRequestDTO.getBirthDate())
+                .gender(doctorRequestDTO.getGender())
+                .specialty((doctorRequestDTO.getSpecialty()))
+                .license(doctorRequestDTO.getLicense())
                 .build();
 
         log.info("DoctorEntity: {}", doctor.toString());

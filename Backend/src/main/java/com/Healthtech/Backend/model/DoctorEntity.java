@@ -35,5 +35,5 @@ public class DoctorEntity implements Serializable{
     @Column(name = "Specialty", length = 50)
     private String specialty;
     @Column(name = "License", length = 20)
-    private String license;
+    private Integer license;
 }

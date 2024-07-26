@@ -6,6 +6,7 @@ import com.Healthtech.Backend.model.UserEntity;
 import com.Healthtech.Backend.repository.DoctorRepository;
 import com.Healthtech.Backend.repository.UserEntityRepository;
 import com.Healthtech.Backend.service.DoctorService;
+import com.Healthtech.Backend.service.IEmailService;
 import com.Healthtech.Backend.utils.UserEntityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,8 @@ public class DoctorServiceImpl implements DoctorService {
     private final DoctorRepository doctorRepository;
 
     private final UserEntityRepository userRepository;
+
+    private final IEmailService iEmailService;
 
     @Override
     public List<DoctorEntity> findAll() {
@@ -56,6 +59,10 @@ public class DoctorServiceImpl implements DoctorService {
                 doctorRequestDTO.getEmail(), doctorRequestDTO.getDocumentation(), "DOCTOR");
 
         userRepository.save(userEntity);
+
+        iEmailService.sendEmail(doctorRequestDTO.getEmail(), "Health Tech",
+                "Tu cuenta ya está activa en nuestro sistema.\n\nUsuario: " + doctorRequestDTO.getEmail() + "\nContraseña: " + doctorRequestDTO.getDocumentation());
+
 
         log.info("DoctorEntity: {}", doctor.toString());
         // Guardar en la base de datos

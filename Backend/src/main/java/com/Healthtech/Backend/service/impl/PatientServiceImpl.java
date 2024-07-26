@@ -11,6 +11,7 @@ import com.Healthtech.Backend.repository.ClinicalHistoryRepository;
 import com.Healthtech.Backend.repository.PatientRepository;
 import com.Healthtech.Backend.repository.UserEntityRepository;
 import com.Healthtech.Backend.service.ClinicalHistoryService;
+import com.Healthtech.Backend.service.IEmailService;
 import com.Healthtech.Backend.service.PatientEntityService;
 import com.Healthtech.Backend.utils.UserEntityUtil;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,9 @@ public class PatientServiceImpl implements PatientEntityService {
     private final PatientRepository patientRepository;
 
     private final UserEntityRepository userRepository;
+
+    private final IEmailService iEmailService;
+
 
     @Override
     public List<PatientEntity> findAll() {
@@ -60,6 +64,10 @@ public class PatientServiceImpl implements PatientEntityService {
                 patientEntityRequestDTO.getEmail(), patientEntityRequestDTO.getDocumentation(), "PATIENT");
 
         userRepository.save(userEntity);
+
+        iEmailService.sendEmail(patientEntityRequestDTO.getEmail(), "Health Tech",
+                "Tu cuenta ya está activa en nuestro sistema.\n\nUsuario: " + patientEntityRequestDTO.getEmail() + "\nContraseña: " + patientEntityRequestDTO.getDocumentation());
+
 
         log.info("PatientEntity: {}", patientEntity.toString());
 

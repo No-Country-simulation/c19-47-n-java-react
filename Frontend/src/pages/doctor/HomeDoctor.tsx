@@ -14,14 +14,14 @@ const HomeDoctor = () => {
           <Link to="/pacientes/perfil">
             <Button color="type-4">Editar perfil</Button>
           </Link>
-          <Link to="/doctor/horarios-laborales">
+          <Link to="/medicos/horarios-laborales">
             <Button color="type-4">Ver horarios laborales</Button>
           </Link>
-          <Link to="/doctor/consultas-programadas">
+          <Link to="/medicos/consultas-programadas">
             <Button color="type-4">Ver consultas programadas</Button>
           </Link>
-          <Link to="/doctor/historiales-clinicos">
-            <Button color="type-4">Ver historial clínico</Button>
+          <Link to="/medicos/historiales-clinicos">
+            <Button color="type-4">Ver historiales clínicos</Button>
           </Link>
         </div>
       </div>

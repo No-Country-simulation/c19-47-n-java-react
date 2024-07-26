@@ -7,7 +7,7 @@ import { URLs } from "../../../config";
 
 const ViewHistorialClinico = () => {
   const [patients, setPatients] = useState<any[]>([]);
-  const [error, setError] = useState("");
+  const [error,setError] = useState("")
 
   useEffect(() => {
     const getPatients = async () => {
@@ -16,30 +16,31 @@ const ViewHistorialClinico = () => {
         setPatients(response.data);
       } catch (error) {
         console.log(error);
-        setError("Error al obtener pacientes");
+        setError("Error al obtener pacientes. Inténtelo nuevamente.")
       }
     };
 
     getPatients();
   }, []);
 
-  const handleSearchSubmit = () => {};
+  // const handleSearchSubmit = () => {};
 
   return (
-    <div className="w-full h-full flex flex-col items-center bg-slate-300">
+    <div className="w-full h-full flex flex-col lg:items-center bg-slate-300">
       <Header />
-      <div className="w-full lg:max-w-[900px] flex flex-col gap-2 justify-between p-7">
-        <h2 className="font-bold text-gray-700 text-3xl">
+      <div className="w-full lg:max-w-[900px] flex flex-col gap-2 justify-between p-3 lg:p-0 lg:m-7">
+        <h2 className="font-bold text-gray-700 text-2xl md:text-3xl">
           Historiales clínicos
         </h2>
+        {/* Próxima mejora, búsqueda de pacientes 
         <form
           action=""
           onSubmit={handleSearchSubmit}
           className="flex h-10 justify-between gap-2"
         >
-          <input type="text" name="" id="" className="rounded-md w-full px-4" />
+          <input type="text" name="" id="" className="rounded-md w-full px-4 focus:outline-none focus:ring-1 focus:ring-sky-700" placeholder="Ingrese "/>
           <Button color="type-search">Buscar</Button>
-        </form>
+        </form> */}
       </div>
       <div className="overflow-x-auto lg:w-[900px]">
         <table className="w-full bg-white rounded-lg divide-y divide-gray-300">
@@ -59,8 +60,18 @@ const ViewHistorialClinico = () => {
             </tr>
           </thead>
           <tbody className="text-gray-600">
-            {patients.map((patient) => (
-              <tr key={patient.idPaciente} className="">
+          {error ? (
+              <tr>
+                <td
+                  colSpan={7}
+                  className="border border-gray-100 p-3 text-red-500"
+                >
+                  {error}
+                </td>
+              </tr>
+            ) : (
+            patients.map((patient) => (
+              <tr key={patient.idPaciente}>
                 <td className="border border-gray-100 p-3">
                   {patient.firstName} {patient.lastName}
                 </td>
@@ -76,12 +87,12 @@ const ViewHistorialClinico = () => {
                   {patient.medicalInsurance}
                 </td>
                 <td className="border border-gray-100 p-3">
-                  <Link to={`/doctor/historial-clinico/${patient.idPaciente}`}>
-                    <Button color="type-2">Editar</Button>
+                  <Link to={`/medicos/historial-clinico/${patient.idPaciente}`}>
+                    <Button color="type-2">Ver</Button>
                   </Link>
                 </td>
               </tr>
-            ))}
+            )))}
           </tbody>
         </table>
       </div>

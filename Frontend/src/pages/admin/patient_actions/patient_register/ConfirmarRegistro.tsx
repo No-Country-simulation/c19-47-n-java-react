@@ -125,16 +125,16 @@ const ConfirmRegister = ({ patient, medical, prevStep }: RegisterProps) => {
            type="error"
            title="¡Oops...!" 
            content={error}
+           buttonText="Aceptar"
            icon = {<RiErrorWarningFill />}
            />)
           ) : showSucessModal && (
             <Modal 
             type="success"
             title="¡Paciente registrado!" 
-            content="El paciente se registró con éxito."
+            content=""
             icon = {<BsPersonCheck />}
-            buttonLeft={{text:"Ver pacientes",link:"/admin/pacientes"}}
-            buttonRight={{text:"Nuevo paciente",link:"/admin/pacientes/nuevo"}}
+            buttonText="Aceptar"
             linkClose="/admin/pacientes"
             />
        )
@@ -144,7 +144,7 @@ const ConfirmRegister = ({ patient, medical, prevStep }: RegisterProps) => {
         CONFIRMACIÓN DE DATOS
       </h3>
       <p className="text-center text-base text-gray-600">
-        Si los datos son correctos presiona <strong>Crear paciente</strong>
+        Si los datos son correctos presiona <strong className="text-sky-900">Confirmar</strong>
       </p>
       <p className="mb-6 text-center text-base text-gray-600">
         Si los datos son incorrectos presiona <strong>Volver</strong>
@@ -316,7 +316,7 @@ const ConfirmRegister = ({ patient, medical, prevStep }: RegisterProps) => {
           </div>
           <div className="w-1/3 max-w-[190px]">
             <Button color="type-1" onClick={handleNewPatient}>
-              Registrar paciente
+              Confirmar
             </Button>
           </div>
         </div>

@@ -1,61 +1,61 @@
-import React, { useState, FormEvent } from "react";
-import Button from "../components/Button";
-import ButtonBack from "../components/ButtonBack";
-import { TbEyeClosed } from "react-icons/tb";
-import { FaRegEye } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import { URLs } from "../config.tsx";
-import axios from "axios";
+import React, { useState, FormEvent } from "react"
+import Button from "../components/Button"
+import ButtonBack from "../components/ButtonBack"
+import { TbEyeClosed } from "react-icons/tb"
+import { FaRegEye } from "react-icons/fa"
+import { useNavigate } from "react-router-dom"
+import { URLs } from "../config.tsx"
+import axios from "axios"
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [viewPassword, setViewPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+  const [viewPassword, setViewPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const data = { email, password };
-    setLoading(true);
+    const data = { email, password }
+    setLoading(true)
 
     if (!email || !password) {
-      setError("El campo correo y contraseña son obligatorios.");
+      setError("El campo correo y contraseña son obligatorios.")
     } else {
-      setError("");
-      setLoading(true);
+      setError("")
+      setLoading(true)
 
       try {
-        const resultUser = await axios.post(URLs.LOG_IN, data);
+        const resultUser = await axios.post(URLs.LOG_IN, data)
         console.log(resultUser)
 
         if (resultUser.status === 200) {
           switch (resultUser.data.role) {
             case "ADMIN":
-              navigate("/admin/home");
-              break;
+              navigate("/admin/home")
+              break
             case "DOCTOR":
-              navigate("/doctor/home");
-              break;
+              navigate("/medicos/home")
+              break
             case "PATIENT":
-              navigate("/pacientes/home");
-              break;
+              navigate("/pacientes/home")
+              break
             default:
-              setError("Error: rol no reconocido");
+              setError("Error: rol no reconocido")
           }
         } else {
-          setError("Credenciales incorrectas. Inténtelo nuevamente.");
+          setError("Credenciales incorrectas. Inténtelo nuevamente.")
         }
       } catch (error) {
-        console.error(error);
-        setError("Error al iniciar sesión. Inténtelo nuevamente.");
+        console.error(error)
+        setError("Error al iniciar sesión. Inténtelo nuevamente.")
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     }
-  };
+  }
 
   return (
     <div className="flex flex-col w-full h-full bg-blue-300">
@@ -146,6 +146,7 @@ const Login = () => {
             <Button color="type-1" type="submit">
               Ingresar
             </Button>
+            {/* Próxima mejora 
             <div className="w-full mt-5 text-center">
               <a
                 className="text-sky-800 text-sm underline underline-offset-2"
@@ -153,12 +154,12 @@ const Login = () => {
               >
                 ¿Olvidaste tu contraseña?
               </a>
-            </div>
+            </div> */}
           </form>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

@@ -23,7 +23,7 @@ const Button = ({children, color = "type-1", type = "button", onClick}:ButtonPro
             style: 'bg-sky-600 border border-solid h-10 text-white rounded-md hover:bg-sky-900 hover:text-white p-6'
         },
         'type-search': {
-            style: 'bg-gray-800 text-white h-full rounded-md w-[80px]'
+            style: 'bg-gray-800 text-white h-full rounded-md w-[100px]'
         }
         //Definir mas styles
     }
@@ -31,7 +31,7 @@ const Button = ({children, color = "type-1", type = "button", onClick}:ButtonPro
 
   return (
     <div className='flex flex-col'>
-        <button onClick={onClick} className={`flex justify-center w-full items-center text-base ${classTypes[color].style}`} type={type}>{children}</button>
+        <button onClick={onClick} className={`flex justify-center w-full items-center text-sm sm:text-base ${classTypes[color].style}`} type={type}>{children}</button>
     </div>
   )
 }

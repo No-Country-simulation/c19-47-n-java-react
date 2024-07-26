@@ -1,89 +1,81 @@
-import React, { useEffect, useState } from "react";
-import Header from "../../../components/Header";
-import Button from "../../../components/Button";
-import axios from "axios";
-import { URLs } from "../../../config";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react"
+import Header from "../../../components/Header"
+import Button from "../../../components/Button"
+import axios from "axios"
+import { URLs } from "../../../config"
+import { useNavigate } from "react-router-dom"
 
 type WorkSchedule = {
-  id: number;
-  shiftsPerDay: number;
-  day: string;
+  id: number
+  shiftsPerDay: number
+  day: string
   doctor: {
-    id_doctor: number;
-    firstName: string;
-    lastName: string;
-    birthDate: string;
-    documentation: string;
-    gender: string;
-    specialty: string;
-    email: string;
-    license: number;
-    state: boolean;
-  };
-};
+    idDoctor: number
+    firstName: string
+    lastName: string
+    birthDate: string
+    documentation: string
+    gender: string
+    specialty: string
+    email: string
+    license: number
+    state: boolean
+  }
+}
 
 const CreateHorarioLaboral = () => {
   const navigate = useNavigate()
-  const [daysUsed,setDaysUsed] = useState<string[]>([]);
-  const [quantityShift, setQuantityShift] = useState<number>();
-  const [days, setDays] = useState<string[]>([]);
+  const [daysUsed, setDaysUsed] = useState<string[]>([])
+  const [quantityShift, setQuantityShift] = useState<number>()
+  const [days, setDays] = useState<string[]>([])
 
   useEffect(() => {
     const doctorId = 1
     const getDaysUsed = async () => {
       try {
         const response = await axios.get(URLs.DOCTOR_WORK_SCHEDULES)
-        const diasObtenidos = response.data
-          .filter((item:WorkSchedule) => item.doctor.id_doctor === doctorId)
-          .map((item:WorkSchedule) => item.day);
-        setDaysUsed(diasObtenidos)
-        setDays(diasObtenidos)
+        const foundDaysUsed = response.data
+          .filter((item: WorkSchedule) => item.doctor.idDoctor === doctorId)
+          .map((item: WorkSchedule) => item.day)
+        setDaysUsed(foundDaysUsed)
+        setDays(foundDaysUsed)
       } catch (error) {
-        console.log(error);
-        // setError("Error al obtener dias en uso");
+        console.log(error)
       }
-    };
-    getDaysUsed();
-  }, []);
+    }
+    getDaysUsed()
+  }, [])
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id } = e.target;
+    const { id } = e.target
 
     if (days.includes(id)) {
-        setDays(days.filter(day => day !== id));
-        console.log('hola')
-      } else {
-        // Si el día no está en days, agregarlo (permitir marcar)
-        setDays([...days, id]);
-      }
-  };
+      setDays(days.filter((day) => day !== id))
+    } else {
+      // Si el día no está en days, agregarlo (permitir marcar)
+      setDays([...days, id])
+    }
+  }
 
   const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
-   const newDays = days.filter(day => !daysUsed.includes(day))
-   console.log(newDays)
+    const newDays = days.filter((day) => !daysUsed.includes(day))
+    console.log(newDays)
     const data = {
       shiftsPerDay: quantityShift,
       days: newDays,
-      doctorId: 1
+      doctorId: 1,
     }
 
-   try {
-    const response = await axios.post(URLs.DOCTOR_WORK_SCHEDULES,data);
-    // setDaysUsed(response.data);
-    navigate("/doctor/horarios-laborales")
-    console.log(response.data)
-  } catch (error) {
-    console.log(error);
-    // setError("Error al obtener dias en uso");
+    try {
+      const response = await axios.post(URLs.DOCTOR_WORK_SCHEDULES, data)
+      navigate("/medicos/horarios-laborales")
+      console.log(response.data)
+    } catch (error) {
+      console.log(error)
+    }
   }
-
-
-    console.log("Cantidad de turnos:", quantityShift);
-    console.log("Días seleccionados:", newDays);
-  };
 
   return (
     <div className="w-full h-full flex flex-col items-center">
@@ -114,10 +106,10 @@ const CreateHorarioLaboral = () => {
           {[
             "lunes",
             "martes",
-            "miercoles",
+            "miércoles",
             "jueves",
             "viernes",
-            "sabado",
+            "sábado",
             "domingo",
           ].map((day) => (
             <div key={day} className="flex gap-2">
@@ -142,6 +134,6 @@ const CreateHorarioLaboral = () => {
         </form>
       </div>
     </div>
-  );
-};
-export default CreateHorarioLaboral;
+  )
+}
+export default CreateHorarioLaboral

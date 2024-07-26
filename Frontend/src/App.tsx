@@ -11,31 +11,41 @@ import HomeDoctor from "./pages/doctor/HomeDoctor";
 import ViewHorarioLaboral from "./pages/doctor/horario_laboral/ViewHorarioLaboral";
 import CreateHorarioLaboral from "./pages/doctor/horario_laboral/CreateHorarioLaboral";
 import ViewHistorialClinico from "./pages/doctor/acceso_historial_clinico/ViewHistorialClinico";
-import UpdateHistorialClinico from "./pages/doctor/acceso_historial_clinico/UpdateHistorialClinico";
+import ViewHistorialClinicoPaciente from "./pages/doctor/acceso_historial_clinico/ViewHistorialClinicoPaciente";
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/admin/" element={<HomeAdmin />} />
-          <Route path="/admin/home" element={<HomeAdmin />} />
-          <Route path="/admin/pacientes/nuevo" element={<PatientRegister/>} />
-          <Route path="/admin/pacientes" element={<ViewPatients/>}/>
-          <Route path="/admin/medicos/nuevo" element={<DoctorRegister/>}/>
-          <Route path="/admin/medicos" element={<ViewDoctors/>}/>
-          <Route path="/pacientes" element={<HomePatient/>}/>
-          <Route path="/pacientes/home" element={<HomePatient/>}/>
-          <Route path="/doctor/home" element={<HomeDoctor/>}/>
-          <Route path="/doctor/horarios-laborales" element={<ViewHorarioLaboral/>}/>
-          <Route path="/doctor/nuevo-horario" element={<CreateHorarioLaboral/>}/>
-          <Route path="/doctor/historiales-clinicos" element={<ViewHistorialClinico/>}/>
-          <Route path="/doctor/historial-clinico/:id" element={<UpdateHistorialClinico/>}/>
-        </Routes>
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin/" element={<HomeAdmin />} />
+        <Route path="/admin/home" element={<HomeAdmin />} />
+        <Route path="/admin/pacientes/nuevo" element={<PatientRegister />} />
+        <Route path="/admin/pacientes" element={<ViewPatients />} />
+        <Route path="/admin/medicos/nuevo" element={<DoctorRegister />} />
+        <Route path="/admin/medicos" element={<ViewDoctors />} />
+        <Route path="/pacientes" element={<HomePatient />} />
+        <Route path="/pacientes/home" element={<HomePatient />} />
+        <Route path="/medicos/home" element={<HomeDoctor />} />
+        <Route
+          path="/medicos/horarios-laborales"
+          element={<ViewHorarioLaboral />}
+        />
+        <Route
+          path="/medicos/nuevo-horario"
+          element={<CreateHorarioLaboral />}
+        />
+        <Route
+          path="/medicos/historiales-clinicos"
+          element={<ViewHistorialClinico />}
+        />
+        <Route
+          path="/medicos/historial-clinico/:id"
+          element={<ViewHistorialClinicoPaciente />}
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

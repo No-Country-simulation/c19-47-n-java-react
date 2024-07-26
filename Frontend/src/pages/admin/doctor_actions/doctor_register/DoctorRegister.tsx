@@ -191,6 +191,7 @@ const DoctorRegister = () => {
             type="error"
             title="¡Oops...!"
             content={errorServer}
+            buttonText="Aceptar"
             icon={<RiErrorWarningFill />}
           />
         ) : (
@@ -198,13 +199,9 @@ const DoctorRegister = () => {
             <Modal
               type="success"
               title="¡Médico registrado!"
-              content="El médico se registró con éxito."
+              content=""
               icon={<BsPersonCheck />}
-              buttonLeft={{ text: "Ver médicos", link: "/admin/medicos" }}
-              buttonRight={{
-                text: "Nuevo médico",
-                link: "/admin/medicos/nuevo",
-              }}
+              buttonText="Aceptar"
               linkClose="/admin/medicos"
             />
           )
@@ -380,7 +377,7 @@ const DoctorRegister = () => {
             <input
               type="number"
               id="license"
-              value={doctor.license}
+              value={doctor.license === 0 ? '' : doctor.license }
               onChange={handleChange("license")}
               className={`px-3 py-2 text-sm w-full rounded-md focus:outline-none focus:ring-sky-500 ${
                 error

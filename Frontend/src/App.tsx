@@ -7,6 +7,11 @@ import DoctorRegister from "./pages/admin/doctor_actions/doctor_register/DoctorR
 import ViewPatients from "./pages/admin/patient_actions/ViewPatients";
 import ViewDoctors from "./pages/admin/doctor_actions/ViewDoctors";
 import HomePatient from "./pages/patient/HomePatient";
+import HomeDoctor from "./pages/doctor/HomeDoctor";
+import ViewHorarioLaboral from "./pages/doctor/horario_laboral/ViewHorarioLaboral";
+import CreateHorarioLaboral from "./pages/doctor/horario_laboral/CreateHorarioLaboral";
+import ViewHistorialClinico from "./pages/doctor/acceso_historial_clinico/ViewHistorialClinico";
+import UpdateHistorialClinico from "./pages/doctor/acceso_historial_clinico/UpdateHistorialClinico";
 
 function App() {
   return (
@@ -23,6 +28,11 @@ function App() {
           <Route path="/admin/medicos" element={<ViewDoctors/>}/>
           <Route path="/pacientes" element={<HomePatient/>}/>
           <Route path="/pacientes/home" element={<HomePatient/>}/>
+          <Route path="/doctor/home" element={<HomeDoctor/>}/>
+          <Route path="/doctor/horarios-laborales" element={<ViewHorarioLaboral/>}/>
+          <Route path="/doctor/nuevo-horario" element={<CreateHorarioLaboral/>}/>
+          <Route path="/doctor/historiales-clinicos" element={<ViewHistorialClinico/>}/>
+          <Route path="/doctor/historial-clinico/:id" element={<UpdateHistorialClinico/>}/>
         </Routes>
       </BrowserRouter>
     </>

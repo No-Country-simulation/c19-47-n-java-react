@@ -8,6 +8,8 @@ import lombok.Setter;
 @Setter
 @Builder
 public class AuthResponse {
+
+    private long id;
     private String role;
 
 }

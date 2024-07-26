@@ -29,15 +29,15 @@ const Login = () => {
 
       try {
         const resultUser = await axios.post(URLs.LOG_IN, data);
+        console.log(resultUser)
 
         if (resultUser.status === 200) {
-          console.log(resultUser)
           switch (resultUser.data.role) {
             case "ADMIN":
               navigate("/admin/home");
               break;
             case "DOCTOR":
-              navigate("/medicos/home");
+              navigate("/doctor/home");
               break;
             case "PATIENT":
               navigate("/pacientes/home");

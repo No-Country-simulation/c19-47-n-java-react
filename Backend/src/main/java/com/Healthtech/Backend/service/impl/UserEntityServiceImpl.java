@@ -28,6 +28,7 @@ public class UserEntityServiceImpl implements UserEntityService {
         }
 
         return AuthResponse.builder()
+                .id(user.getIdUser())
                 .role(user.getRole())
                 .build();
 

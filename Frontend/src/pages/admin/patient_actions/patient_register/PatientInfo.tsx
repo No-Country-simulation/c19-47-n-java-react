@@ -11,6 +11,7 @@ type RegisterProps = {
 }
 
 type PatientData = {
+  id?:number
   firstName: string
   lastName: string
   birthDate: string

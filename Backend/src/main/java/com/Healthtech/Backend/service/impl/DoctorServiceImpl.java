@@ -2,8 +2,11 @@ package com.Healthtech.Backend.service.impl;
 
 import com.Healthtech.Backend.dto.request.DoctorRequestDTO;
 import com.Healthtech.Backend.model.DoctorEntity;
+import com.Healthtech.Backend.model.UserEntity;
 import com.Healthtech.Backend.repository.DoctorRepository;
+import com.Healthtech.Backend.repository.UserEntityRepository;
 import com.Healthtech.Backend.service.DoctorService;
+import com.Healthtech.Backend.utils.UserEntityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.type.descriptor.DateTimeUtils;
@@ -19,19 +22,25 @@ public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
 
+    private final UserEntityRepository userRepository;
+
     @Override
     public List<DoctorEntity> findAll() {
         return doctorRepository.findAll();
-        //return doctorRepository.findAll();
     }
 
     @Override
     @Transactional
     public DoctorEntity save(DoctorRequestDTO doctorRequestDTO) {
 
+
+        boolean existsByEmail = doctorRepository.findByEmail(doctorRequestDTO.getEmail()).isPresent();
+        if (existsByEmail) {
+            throw new RuntimeException("Correo ya registrado");
+        }
+
         // Mapeo de ClinicalHistoryRequestDTO a ClinicalHistoryEntity
         DoctorEntity doctor = DoctorEntity.builder()
-                //.state(true) // Por defecto se crea activo
                 .firstName(doctorRequestDTO.getFirstName())
                 .lastName(doctorRequestDTO.getLastName())
                 .documentation(doctorRequestDTO.getDocumentation())
@@ -41,9 +50,13 @@ public class DoctorServiceImpl implements DoctorService {
                 .license(doctorRequestDTO.getLicense())
                 .email(doctorRequestDTO.getEmail())
                 .state(true )
-                //.state(doctorRequestDTO.ge)
-
                 .build();
+
+        UserEntity userEntity = UserEntityUtil.createUserEntity(
+                doctorRequestDTO.getEmail(), doctorRequestDTO.getDocumentation(), "DOCTOR");
+
+        userRepository.save(userEntity);
+
         log.info("DoctorEntity: {}", doctor.toString());
         // Guardar en la base de datos
         return doctorRepository.save(doctor);

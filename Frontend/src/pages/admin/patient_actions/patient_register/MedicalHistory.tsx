@@ -12,8 +12,8 @@ type MedicalHistory = {
 };
 
 type RegisterProps = {
-  prevStep: () => void;
-  nextStep: () => void;
+  prevStep?: () => void;
+  nextStep?: () => void;
   handleChange: (
     field: string,
     dataType: "patient" | "medical"

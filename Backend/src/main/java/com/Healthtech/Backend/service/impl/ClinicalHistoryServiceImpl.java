@@ -4,7 +4,10 @@ import com.Healthtech.Backend.dto.request.ChronicDiseasesRequestDTO;
 import com.Healthtech.Backend.dto.request.ClinicalHistoryRequestDTO;
 import com.Healthtech.Backend.model.ChronicDiseasesEntity;
 import com.Healthtech.Backend.model.ClinicalHistoryEntity;
+import com.Healthtech.Backend.model.PatientEntity;
 import com.Healthtech.Backend.repository.ClinicalHistoryRepository;
+import com.Healthtech.Backend.repository.PatientRepository;
+import com.Healthtech.Backend.repository.UserEntityRepository;
 import com.Healthtech.Backend.service.ClinicalHistoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +25,9 @@ public class ClinicalHistoryServiceImpl implements ClinicalHistoryService {
 
     private final ClinicalHistoryRepository clinicalHistoryRepository;
 
+    private final PatientRepository patientRepository;
+
+
     @Override
     public List<ClinicalHistoryEntity> findAll() {
         return clinicalHistoryRepository.findAll();
@@ -31,21 +37,27 @@ public class ClinicalHistoryServiceImpl implements ClinicalHistoryService {
     @Transactional
     public ClinicalHistoryEntity save(ClinicalHistoryRequestDTO clinicalHistoryRequestDTO) {
 
-        // Mapeo de ChronicDiseasesRequestDTO a ChronicDiseasesEntity
+        if (clinicalHistoryRequestDTO.getId() == 0 ) {
+            log.info("No se proporcionó información para crear un historial clínico.");
+            return null; // O retornar un valor predeterminado
+        }
+
+        PatientEntity patientEntity = patientRepository.findById(clinicalHistoryRequestDTO.getId())
+                .orElseThrow(() -> new RuntimeException("Patient not found"));
+
         Set<ChronicDiseasesEntity> chronicDiseases = clinicalHistoryRequestDTO.getChronicDiseases().stream()
                 .map(this::mapToChronicDiseasesEntity)
                 .collect(Collectors.toSet());
 
-        // Mapeo de ClinicalHistoryRequestDTO a ClinicalHistoryEntity
         ClinicalHistoryEntity clinicalHistory = ClinicalHistoryEntity.builder()
                 .medications(clinicalHistoryRequestDTO.getMedications())
                 .allergies(clinicalHistoryRequestDTO.getAllergies())
-                .state(true) // Por defecto se crea activo
+                .patient(patientEntity)
+                .state(true)
                 .chronicDiseases(chronicDiseases)
                 .build();
 
         log.info("ClinicalHistoryEntity: {}", clinicalHistory.toString());
-        // Guardar en la base de datos
         return clinicalHistoryRepository.save(clinicalHistory);
 
     }

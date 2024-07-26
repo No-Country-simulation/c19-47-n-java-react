@@ -3,6 +3,8 @@ package com.Healthtech.Backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Set;
 
 
@@ -13,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "ClinicalHistory")
-public class ClinicalHistoryEntity {
+public class ClinicalHistoryEntity  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +28,8 @@ public class ClinicalHistoryEntity {
     @Column(nullable = false)
     private boolean state = true;
 
+
+
     @ManyToMany(fetch = FetchType.EAGER,targetEntity = ChronicDiseasesEntity.class,cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "DiseaseDetails",
@@ -33,6 +37,10 @@ public class ClinicalHistoryEntity {
             inverseJoinColumns = @JoinColumn(name = "idChronicDiseases")
     )
     private Set<ChronicDiseasesEntity> chronicDiseases;
+
+    @ManyToOne
+    @JoinColumn(name = "idPatient", nullable = false)
+    private PatientEntity patient;
 
     @Override
     public String toString() {

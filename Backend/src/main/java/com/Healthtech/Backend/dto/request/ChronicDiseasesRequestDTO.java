@@ -11,12 +11,10 @@ import java.time.LocalDate;
 public class ChronicDiseasesRequestDTO {
 
 
-    @NotBlank(message = "Name cannot be blank")
     private String name;
 
     private LocalDate startDate;
 
-    @NotBlank(message = "Diagnosing doctor cannot be blank")
     private String diagnosingDoctor;
 
 }

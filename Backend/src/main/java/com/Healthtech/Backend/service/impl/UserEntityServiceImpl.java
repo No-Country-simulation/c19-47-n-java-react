@@ -6,7 +6,6 @@ import com.Healthtech.Backend.model.UserEntity;
 import com.Healthtech.Backend.repository.UserEntityRepository;
 import com.Healthtech.Backend.service.UserEntityService;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +21,10 @@ public class UserEntityServiceImpl implements UserEntityService {
 
         UserEntity user = userEntityRepository.findByEmail(userRequest.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // obtener el id del paciente o medico que se loguea buscando por email en
+        // tabla paciente o doctor y retornar el id,luego devolver el id del paciente o medico
+        // y el rol
 
         if (!user.getPassword().equals(userRequest.getPassword())) {
             throw new RuntimeException("Invalid password");

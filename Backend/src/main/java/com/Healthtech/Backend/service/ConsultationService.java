@@ -6,3 +6,4 @@ import com.Healthtech.Backend.model.ConsultationEntity;
 public interface ConsultationService {
     ConsultationEntity save(ConsultationRequest consultationRequest);
 }
+

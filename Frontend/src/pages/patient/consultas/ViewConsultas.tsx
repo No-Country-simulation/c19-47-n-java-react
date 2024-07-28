@@ -37,6 +37,7 @@ const ViewConsultas = () => {
         try {
           const getConsultations = URLs.getConsultationUrl(patient?.id);
           const response = await axios.get(getConsultations);
+          console.log(response)
           setConsultas(response.data);
         } catch (error) {
           console.error("Error al obtener las consultas:", error);
@@ -64,14 +65,14 @@ const ViewConsultas = () => {
             consultas.map((consulta) => (
               <div className="bg-white rounded-lg w-5/6 sm:w-2/3 p-5 m-3 flex flex-col gap-6">
                 <div>
-                <p className="text-gray-600 text-sm mb-3">Consulta n°: {consulta.id}</p>
                   <h3 className="text-2xl text-gray-900 font-bold">
                     {consulta.doctor.gender === "female" ? "Dra. " : "Dr. "}
                     {consulta.doctor.firstName + " " + consulta.doctor.lastName}
                   </h3>
+                <p className="text-gray-600 text-sm mb-4">Especialidad: {consulta.doctor.specialty}</p>
                   <h4 className="text-lg text-sky-800">
                     {consulta.dia.charAt(0).toUpperCase() +
-                      consulta.dia.slice(1).toLowerCase()}
+                      consulta.dia.slice(1).toLowerCase()} (fecha a confirmar)
                   </h4>
                 </div>
                 <div>

@@ -79,7 +79,7 @@ const ViewPatients = () => {
                     {patient.documentation}
                   </td>
                   <td className="border border-gray-100 p-3">
-                    {patient.gender}
+                    {patient.gender === "female" ? "Femenino" : "Masculino"}
                   </td>
                   <td className="border border-gray-100 p-3">
                     {patient.medicalInsurance}

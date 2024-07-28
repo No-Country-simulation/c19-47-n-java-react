@@ -4,6 +4,7 @@ import Button from "../../../components/Button";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { URLs } from "../../../config";
+import { useAuth } from "../../../context/AuthProvider";
 
 type WorkSchedules = {
   shiftsPerDay: number;
@@ -14,14 +15,21 @@ type WorkSchedules = {
 };
 
 const ViewHorarioLaboral = () => {
+  const {getDoctor} = useAuth()
+  const doctor = getDoctor()
   const [horarios, setHorarios] = useState<WorkSchedules[]>([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
     const getWorkSchedules = async () => {
       try {
-        const response = await axios.get(URLs.DOCTOR_WORK_SCHEDULES);
-        setHorarios(response.data);
+        if (doctor){
+          const response = await axios.get(URLs.DOCTOR_WORK_SCHEDULES);
+          const filteredHorarios = response.data.filter(
+            (schedule: any) => schedule.doctor.idDoctor === doctor.id
+          );
+          setHorarios(filteredHorarios);
+        }
       } catch (error) {
         console.log(error);
         setError("Error al obtener horarios laborales. Inténtelo nuevamente.");

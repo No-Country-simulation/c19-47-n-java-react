@@ -1,9 +1,12 @@
-import React from "react";
 import Header from "../../../components/Header";
 import Button from "../../../components/Button";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/AuthProvider";
 
 const ViewPerfil = () => {
+ const {getPatient} = useAuth()
+ const patient = getPatient()
+
   return (
     <div className="w-full h-full flex flex-col items-center bg-slate-50">
       <Header />
@@ -16,7 +19,7 @@ const ViewPerfil = () => {
             </label>
             <input
               type="text"
-              value="test test"
+              value={patient?.firstName+" "+patient?.lastName}
               disabled
               className="bg-slate-200"
             />
@@ -27,7 +30,7 @@ const ViewPerfil = () => {
             </label>
             <input
               type="text"
-              value="test test"
+              value={patient?.birthDate}
               disabled
               className="bg-slate-200"
             />
@@ -36,7 +39,7 @@ const ViewPerfil = () => {
             <label className="text-xs font-bold text-gray-700">CORREO</label>
             <input
               type="text"
-              value="test test"
+              value={patient?.email}
               disabled
               className="bg-slate-200"
             />
@@ -47,7 +50,7 @@ const ViewPerfil = () => {
             </label>
             <input
               type="text"
-              value="test test"
+              value={patient?.documentation}
               disabled
               className="bg-slate-200"
             />
@@ -58,7 +61,7 @@ const ViewPerfil = () => {
             </label>
             <input
               type="text"
-              value="test test"
+              value={patient?.medicalInsurance}
               disabled
               className="bg-slate-200"
             />

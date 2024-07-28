@@ -16,45 +16,44 @@ const Login = () => {
   const { login } = useAuth();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const data = { email, password };
+    const data = { email, password }
 
     if (!email || !password) {
-      setError("El campo correo y contraseña son obligatorios.");
-    } else {
-      setError("");
-
-      try {
-        const resultUser = await axios.post(URLs.LOG_IN, data)
-        const { id, role } = resultUser.data
-        console.log(resultUser)
-
-        login({ id, role });
-
-        if (resultUser.status === 200) {
-          switch (resultUser.data.role) {
-            case "ADMIN":
-              navigate("/admin/home");
-              break;
-            case "DOCTOR":
-              navigate("/medicos/home");
-              break;
-            case "PATIENT":
-              navigate("/pacientes/home");
-              break;
-            default:
-              setError("Error: rol no reconocido");
-          }
-        } else {
-          setError("Credenciales incorrectas. Inténtelo nuevamente.");
-        }
-      } catch (error) {
-        console.error(error);
-        setError("Error al iniciar sesión. Inténtelo nuevamente.");
-      }
+      setError("El campo correo y contraseña son obligatorios.")
+      return
     }
-  };
+
+    try {
+      const resultUser = await axios.post(URLs.LOG_IN, data)
+      const { id, role } = resultUser.data
+      console.log(resultUser)
+
+      await login({ id, role })
+
+      if (resultUser.status === 200) {
+        switch (role) {
+          case "ADMIN":
+            navigate("/admin/home")
+            break
+          case "DOCTOR":
+            navigate("/medicos/home")
+            break
+          case "PATIENT":
+            navigate("/pacientes/home")
+            break
+          default:
+            setError("Error: rol no reconocido")
+        }
+      } else {
+        setError("Credenciales incorrectas. Inténtelo nuevamente.")
+      }
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error)
+      setError("Error al iniciar sesión. Inténtelo nuevamente.")
+    }
+  }
 
   return (
     <div className="flex flex-col w-full h-full bg-blue-300">

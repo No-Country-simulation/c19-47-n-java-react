@@ -1,13 +1,17 @@
 import Header from '../../components/Header'
 import { Link } from 'react-router-dom'
 import Button from '../../components/Button'
+import { useAuth } from '../../context/AuthProvider'
 
 const HomePatient = () => {
+  const {getPatient} = useAuth()
+  const patient = getPatient()
+
   return (
     <div className="w-full h-full flex flex-col items-center">
       <Header />
       <div className="flex flex-col w-full h-full items-center sm:w-3/5 sm:max-w-[500px] p-6 mt-24">
-        <h2 className="text-3xl font-bold">Hola Test Test,</h2>
+        <h2 className="text-3xl font-bold">Hola {patient?.firstName+" "+patient?.lastName}</h2>
         <p className="text-xl font-normal">¿qué deseas hacer hoy?</p>
         <div className="flex flex-col justify-evenly h-[40%] w-80">
           <Link to="/pacientes/perfil">

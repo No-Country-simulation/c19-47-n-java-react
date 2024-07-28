@@ -25,14 +25,16 @@ type WorkSchedule = {
 }
 
 const CreateHorarioLaboral = () => {
-  const {user} = useAuth()
+  const {getDoctor} = useAuth()
+  const doctor = getDoctor()
+
   const navigate = useNavigate()
   const [daysUsed, setDaysUsed] = useState<string[]>([])
   const [quantityShift, setQuantityShift] = useState<number>()
   const [days, setDays] = useState<string[]>([])
 
   useEffect(() => {
-    const doctorId = user?.id
+    const doctorId = doctor?.id
     const getDaysUsed = async () => {
       try {
         const response = await axios.get(URLs.DOCTOR_WORK_SCHEDULES)
@@ -67,7 +69,7 @@ const CreateHorarioLaboral = () => {
     const data = {
       shiftsPerDay: quantityShift,
       days: newDays,
-      doctorId: user?.id,
+      doctorId: doctor?.id,
     }
 
     try {

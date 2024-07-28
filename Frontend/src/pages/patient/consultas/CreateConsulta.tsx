@@ -42,18 +42,17 @@ const CreateConsulta = () => {
   const [selectDoctor, setSelectDoctor] = useState<number | null>(null);
   const [selectDay, setSelectDay] = useState<string>("");
   const [selectMotive, setSelectMotive] = useState<string>("");
-  const [showSucessModal, setShowSuccessModal] = useState(false)
-  const [showErrorModal, setShowErrorModal] = useState(false)
-  const {user} = useAuth()
+  const [showSucessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+
+  const { getPatient } = useAuth();
+  const user = getPatient();
 
   useEffect(() => {
     const getdoctors = async () => {
       try {
         const response = await axios.get(URLs.DOCTOR);
         setDoctors(response.data);
-        console.log("id user",user?.id)
-        console.log("rol user",user?.role)
-
       } catch (error) {
         console.log(error);
       }
@@ -79,14 +78,14 @@ const CreateConsulta = () => {
             "sábado",
             "domingo",
           ];
-          
-          const sortedDays = filteredDays.sort((a:any, b:any) => {
-              const dayA = a.day.toLowerCase();
-              const dayB = b.day.toLowerCase();
-              return diasOrdenados.indexOf(dayA) - diasOrdenados.indexOf(dayB);
-            });
-        
-            setDays(sortedDays);
+
+          const sortedDays = filteredDays.sort((a: any, b: any) => {
+            const dayA = a.day.toLowerCase();
+            const dayB = b.day.toLowerCase();
+            return diasOrdenados.indexOf(dayA) - diasOrdenados.indexOf(dayB);
+          });
+
+          setDays(sortedDays);
         } catch (error) {}
       };
       getDays();
@@ -97,53 +96,54 @@ const CreateConsulta = () => {
 
   const handleSubmitForm = async (e: React.FormEvent) => {
     e.preventDefault();
-    setShowErrorModal(false)
-    setShowSuccessModal(false)
+    setShowErrorModal(false);
+    setShowSuccessModal(false);
 
     const data = {
-        day: selectDay,
-        motive: selectMotive,
-        doctorId: selectDoctor,
-        patientId: 1
-    }
+      day: selectDay,
+      motive: selectMotive,
+      doctorId: selectDoctor,
+      patientId: user?.id,
+    };
+
+    console.log(data);
 
     try {
-        const response = await axios.post(URLs.ADD_CONSULTATION,data)
-        if (response.status === 201) {
-            console.log("Consulta creada")
-            setShowSuccessModal(true)
-        }
+      const response = await axios.post(URLs.ADD_CONSULTATION, data);
+      if (response.status === 201) {
+        console.log("Consulta creada");
+        setShowSuccessModal(true);
+      }
     } catch (error) {
-        console.log(error)
-        setShowErrorModal(true)
+      console.log(error);
+      setShowErrorModal(true);
     }
-
   };
 
   return (
     <div className="w-full h-full flex flex-col items-center">
       <Header />
       <div className="flex flex-col w-full items-center sm:w-3/5 sm:max-w-[500px] p-6 mt-5 text-gray-900">
-      {showErrorModal 
-      ? (
-         (<Modal 
-           type="error"
-           title="¡Oops...!" 
-           content=""
-           buttonText="Aceptar"
-           icon = {<LuCalendarX />}
-           />)
-          ) : showSucessModal && (
-            <Modal 
-            type="success"
-            title="¡Consulta programada!" 
+        {showErrorModal ? (
+          <Modal
+            type="error"
+            title="¡Oops...!"
             content=""
-            icon = {<LuCalendarCheck />}
             buttonText="Aceptar"
-            linkClose="/pacientes/consultas"
+            icon={<LuCalendarX />}
+          />
+        ) : (
+          showSucessModal && (
+            <Modal
+              type="success"
+              title="¡Consulta programada!"
+              content=""
+              icon={<LuCalendarCheck />}
+              buttonText="Aceptar"
+              linkClose="/pacientes/consultas"
             />
-       )
-      }
+          )
+        )}
 
         <h2 className="text-2xl md:text-3xl font-bold">
           Programar una consulta
@@ -186,11 +186,15 @@ const CreateConsulta = () => {
               id="day"
               className="px-3 py-2 text-sm w-full rounded-md border border-slate-300 shadow-sm 
               focus:outline-none sm:text-sm focus:ring-1"
-              onChange={(e) => setSelectDay(e.target.value)}
+              onChange={(e) => {
+                setSelectDay(e.target.value);
+              }}
             >
+              <option value="">Selecciona una opción</option>
               {days.map((day) => (
                 <option value={day.day} key={day.id}>
-                  {day.day.charAt(0).toUpperCase() + day.day.slice(1).toLowerCase()}
+                  {day.day.charAt(0).toUpperCase() +
+                    day.day.slice(1).toLowerCase()}
                 </option>
               ))}
             </select>

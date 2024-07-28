@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ConsultationServiceImpl implements ConsultationService {
@@ -41,5 +43,15 @@ public class ConsultationServiceImpl implements ConsultationService {
                 .build();
 
         return consultationRepository.save(consultationEntity);
+    }
+
+    @Override
+    public List<ConsultationEntity> getConsultationsByPatientId(Long patientId) {
+
+        PatientEntity patient = PatientEntity.builder()
+                .idPaciente(patientId)
+                .build();
+
+        return consultationRepository.findByPaciente(patient);
     }
 }

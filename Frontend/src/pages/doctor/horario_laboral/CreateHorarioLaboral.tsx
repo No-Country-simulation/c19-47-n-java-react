@@ -4,6 +4,7 @@ import Button from "../../../components/Button"
 import axios from "axios"
 import { URLs } from "../../../config"
 import { useNavigate } from "react-router-dom"
+import { useAuth } from "../../../context/AuthProvider"
 
 type WorkSchedule = {
   id: number
@@ -24,13 +25,14 @@ type WorkSchedule = {
 }
 
 const CreateHorarioLaboral = () => {
+  const {user} = useAuth()
   const navigate = useNavigate()
   const [daysUsed, setDaysUsed] = useState<string[]>([])
   const [quantityShift, setQuantityShift] = useState<number>()
   const [days, setDays] = useState<string[]>([])
 
   useEffect(() => {
-    const doctorId = 1
+    const doctorId = user?.id
     const getDaysUsed = async () => {
       try {
         const response = await axios.get(URLs.DOCTOR_WORK_SCHEDULES)
@@ -65,7 +67,7 @@ const CreateHorarioLaboral = () => {
     const data = {
       shiftsPerDay: quantityShift,
       days: newDays,
-      doctorId: 1,
+      doctorId: user?.id,
     }
 
     try {

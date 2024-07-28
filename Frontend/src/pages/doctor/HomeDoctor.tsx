@@ -11,8 +11,8 @@ const HomeDoctor = () => {
         <h2 className="text-3xl font-bold">Hola doctor Test Test,</h2>
         <p className="text-xl font-normal">¿qué deseas hacer hoy?</p>
         <div className="flex flex-col justify-evenly h-[50%] w-80">
-          <Link to="/pacientes/perfil">
-            <Button color="type-4">Editar perfil</Button>
+          <Link to="/medicos/perfil">
+            <Button color="type-4">Ver perfil</Button>
           </Link>
           <Link to="/medicos/horarios-laborales">
             <Button color="type-4">Ver horarios laborales</Button>

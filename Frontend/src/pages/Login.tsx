@@ -1,61 +1,60 @@
-import React, { useState, FormEvent } from "react"
-import Button from "../components/Button"
-import ButtonBack from "../components/ButtonBack"
-import { TbEyeClosed } from "react-icons/tb"
-import { FaRegEye } from "react-icons/fa"
-import { useNavigate } from "react-router-dom"
-import { URLs } from "../config.tsx"
-import axios from "axios"
+import { useState, FormEvent } from "react";
+import Button from "../components/Button";
+import { TbEyeClosed } from "react-icons/tb";
+import { FaRegEye } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { URLs } from "../config.tsx";
+import axios from "axios";
+import { useAuth } from "../context/AuthProvider.tsx";
 
 const Login = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const [viewPassword, setViewPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [viewPassword, setViewPassword] = useState(false);
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const data = { email, password }
-    setLoading(true)
+    const data = { email, password };
 
     if (!email || !password) {
-      setError("El campo correo y contraseña son obligatorios.")
+      setError("El campo correo y contraseña son obligatorios.");
     } else {
-      setError("")
-      setLoading(true)
+      setError("");
 
       try {
         const resultUser = await axios.post(URLs.LOG_IN, data)
+        const { id, role } = resultUser.data
         console.log(resultUser)
+
+        login({ id, role });
 
         if (resultUser.status === 200) {
           switch (resultUser.data.role) {
             case "ADMIN":
-              navigate("/admin/home")
-              break
+              navigate("/admin/home");
+              break;
             case "DOCTOR":
-              navigate("/medicos/home")
-              break
+              navigate("/medicos/home");
+              break;
             case "PATIENT":
-              navigate("/pacientes/home")
-              break
+              navigate("/pacientes/home");
+              break;
             default:
-              setError("Error: rol no reconocido")
+              setError("Error: rol no reconocido");
           }
         } else {
-          setError("Credenciales incorrectas. Inténtelo nuevamente.")
+          setError("Credenciales incorrectas. Inténtelo nuevamente.");
         }
       } catch (error) {
-        console.error(error)
-        setError("Error al iniciar sesión. Inténtelo nuevamente.")
-      } finally {
-        setLoading(false)
+        console.error(error);
+        setError("Error al iniciar sesión. Inténtelo nuevamente.");
       }
     }
-  }
+  };
 
   return (
     <div className="flex flex-col w-full h-full bg-blue-300">
@@ -159,7 +158,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

@@ -3,6 +3,7 @@ package com.Healthtech.Backend.controller;
 
 import com.Healthtech.Backend.dto.request.ConsultationRequest;
 import com.Healthtech.Backend.dto.request.WorkScheduleRequest;
+import com.Healthtech.Backend.model.ConsultationEntity;
 import com.Healthtech.Backend.model.WorkSchedule;
 import com.Healthtech.Backend.service.ConsultationService;
 import com.Healthtech.Backend.service.WorkScheduleService;
@@ -17,7 +18,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/schedule-consultation")
+@RequestMapping("/api/consultations")
 public class ConsultationController {
 
     private final ConsultationService consultationService;
@@ -36,5 +37,12 @@ public class ConsultationController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @GetMapping("/{patientId}/patient")
+    public ResponseEntity<List<ConsultationEntity>> getConsultationsByPatientId(@PathVariable Long patientId) {
+        return ResponseEntity.status(HttpStatus.OK).body(consultationService.getConsultationsByPatientId(patientId));
+    }
+
+
 
 }

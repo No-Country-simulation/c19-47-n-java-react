@@ -29,6 +29,7 @@ function App() {
           <Route index element={<Login />} />
           <Route path="/login" element={<Login />} />
 
+          {/**RUTAS PROTEGIDAS PARA ADMIN */}
           <Route element={<ProtectedRouter roles={["ADMIN"]} />}>
             <Route path="/admin/home" element={<HomeAdmin />} />
             <Route path="/admin/pacientes" element={<ViewPatients />} />
@@ -39,6 +40,8 @@ function App() {
             />
             <Route path="/admin/medicos/nuevo" element={<DoctorRegister />} />
           </Route>
+
+          {/**RUTAS PROTEGIDAS PARA PACIENTE */}
           <Route element={<ProtectedRouter roles={["PATIENT"]} />}>
             <Route path="/pacientes/home" element={<HomePatient />} />
             <Route path="/pacientes/consultas" element={<ViewConsultas />} />
@@ -53,6 +56,7 @@ function App() {
             />
           </Route>
 
+          {/**RUTAS PROTEGIDAS PARA DOCTOR*/}
           <Route element={<ProtectedRouter roles={["DOCTOR"]} />}>
             <Route path="/medicos/home" element={<HomeDoctor />} />
             <Route path="/medicos/perfil" element={<ViewPerfilDoctor />} />

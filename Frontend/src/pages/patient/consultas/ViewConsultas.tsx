@@ -28,6 +28,7 @@ interface Consultation {
 
 const ViewConsultas = () => {
   const [consultas, setConsultas] = useState<Consultation[]>([]);
+  const [showConsultas,setShowConsultas] = useState(false)
   const { getPatient } = useAuth();
   const patient = getPatient();
 
@@ -37,8 +38,12 @@ const ViewConsultas = () => {
         try {
           const getConsultations = URLs.getConsultationUrl(patient?.id);
           const response = await axios.get(getConsultations);
-          console.log(response)
-          setConsultas(response.data);
+          
+          if (Array.isArray(response.data) && response.data.length > 0){
+            setShowConsultas(true)
+            setConsultas(response.data);
+          }
+
         } catch (error) {
           console.error("Error al obtener las consultas:", error);
         }
@@ -60,8 +65,8 @@ const ViewConsultas = () => {
         </Link>
       </div>
       <div className="w-full lg:max-w-[900px]">
-        <div className="grid md:grid-cols-2 place-items-center items-stretch">
-          {consultas ? (
+        <div className={`grid place-items-center items-stretch ${showConsultas ? 'md:grid-cols-2' : 'grid-cols-1'}`}>
+          {showConsultas ? (
             consultas.map((consulta) => (
               <div className="bg-white rounded-lg w-5/6 sm:w-2/3 p-5 m-3 flex flex-col gap-6">
                 <div>

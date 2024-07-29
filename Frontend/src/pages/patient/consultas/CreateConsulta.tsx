@@ -8,6 +8,9 @@ import { RiErrorWarningFill } from "react-icons/ri";
 import { LuCalendarCheck } from "react-icons/lu";
 import { LuCalendarX } from "react-icons/lu";
 import { useAuth } from "../../../context/AuthProvider";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { es } from "date-fns/locale";
 
 const motives = [
   {
@@ -36,12 +39,26 @@ const motives = [
   },
 ];
 
+const spanishToDayIndex = (day: string): number => {
+  const days: Record<string, number> = {
+    domingo: 0,
+    lunes: 1,
+    martes: 2,
+    miércoles: 3,
+    jueves: 4,
+    viernes: 5,
+    sábado: 6,
+  };
+  return days[day.toLowerCase()] ?? -1; // Retorna -1 si el día no está en el objeto
+};
+
 const CreateConsulta = () => {
   const [doctors, setDoctors] = useState<any[]>([]);
   const [days, setDays] = useState<any[]>([]);
   const [selectDoctor, setSelectDoctor] = useState<number | null>(null);
-  const [selectDay, setSelectDay] = useState<string>("");
+  const [selectDay, setSelectDay] = useState<Date | null>(null);
   const [selectMotive, setSelectMotive] = useState<string>("");
+  const [disabledDays, setDisabledDays] = useState<number[]>([]);
   const [showSucessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
 
@@ -70,22 +87,20 @@ const CreateConsulta = () => {
             (day: any) => day.doctor.idDoctor === selectDoctor
           );
           const diasOrdenados = [
+            "domingo",
             "lunes",
             "martes",
             "miércoles",
             "jueves",
             "viernes",
             "sábado",
-            "domingo",
           ];
 
-          const sortedDays = filteredDays.sort((a: any, b: any) => {
-            const dayA = a.day.toLowerCase();
-            const dayB = b.day.toLowerCase();
-            return diasOrdenados.indexOf(dayA) - diasOrdenados.indexOf(dayB);
-          });
+          const sortedDays = filteredDays
+            .map((day: any) => spanishToDayIndex(day.day))
+            .filter((index: number) => index !== -1);
 
-          setDays(sortedDays);
+          setDisabledDays(sortedDays);
         } catch (error) {}
       };
       getDays();
@@ -94,13 +109,23 @@ const CreateConsulta = () => {
     }
   }, [selectDoctor]);
 
+  const isDisabled = (date: Date): boolean => {
+    if (disabledDays.length === 0) {
+      return false; // No hay días desactivados, por lo que no se debe desactivar ninguna fecha
+    }
+    const day = date.getDay();
+    return !disabledDays.includes(day);
+  };
+
   const handleSubmitForm = async (e: React.FormEvent) => {
     e.preventDefault();
     setShowErrorModal(false);
     setShowSuccessModal(false);
 
+    const formatedDateString = selectDay?.toISOString()
+
     const data = {
-      day: selectDay,
+      day: formatedDateString,
       motive: selectMotive,
       doctorId: selectDoctor,
       patientId: user?.id,
@@ -179,9 +204,20 @@ const CreateConsulta = () => {
 
           <div className="flex flex-col gap-3">
             <label htmlFor="day" className="text-gray-700">
-              Seleccione un día de la semana
+              Seleccione una fecha
             </label>
-            <select
+            <DatePicker
+              selected={selectDay}
+              onChange={(date: Date | null) => setSelectDay(date)}
+              filterDate={(date: Date) => !isDisabled(date)}
+              dateFormat="dd/MM/yyyy"
+              placeholderText="Selecciona una fecha"
+              locale={es}
+              className="px-3 py-2 text-sm w-full rounded-md border border-slate-300 shadow-sm 
+              focus:outline-none sm:text-sm focus:ring-1"
+              disabled={selectDoctor?false:true}
+            />
+            {/* <select
               name=""
               id="day"
               className="px-3 py-2 text-sm w-full rounded-md border border-slate-300 shadow-sm 
@@ -197,7 +233,7 @@ const CreateConsulta = () => {
                     day.day.slice(1).toLowerCase()}
                 </option>
               ))}
-            </select>
+            </select> */}
           </div>
 
           <div className="flex flex-col gap-3">

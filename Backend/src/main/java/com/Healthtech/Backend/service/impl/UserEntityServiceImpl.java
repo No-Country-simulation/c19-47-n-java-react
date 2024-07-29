@@ -1,12 +1,14 @@
 package com.Healthtech.Backend.service.impl;
 
 import com.Healthtech.Backend.dto.request.AuthLoginRequest;
+import com.Healthtech.Backend.dto.request.ChangePasswordRequest;
 import com.Healthtech.Backend.dto.response.AuthResponse;
 import com.Healthtech.Backend.model.PatientEntity;
 import com.Healthtech.Backend.model.UserEntity;
 import com.Healthtech.Backend.repository.DoctorRepository;
 import com.Healthtech.Backend.repository.PatientRepository;
 import com.Healthtech.Backend.repository.UserEntityRepository;
+import com.Healthtech.Backend.service.IEmailService;
 import com.Healthtech.Backend.service.UserEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ public class UserEntityServiceImpl implements UserEntityService {
     private final UserEntityRepository userEntityRepository;
     private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
+    private final IEmailService iEmailService;
 
     @Override
     @Transactional
@@ -49,4 +52,27 @@ public class UserEntityServiceImpl implements UserEntityService {
                 .build();
 
     }
+
+    @Override
+    @Transactional
+    public String  changePassword(ChangePasswordRequest changePasswordRequest) {
+
+        UserEntity user = userEntityRepository.findByEmail(changePasswordRequest.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!user.getPassword().equals(changePasswordRequest.getOldPassword())) {
+            throw new RuntimeException("Invalid password");
+        }
+
+        iEmailService.sendEmail(changePasswordRequest.getEmail(), "Health Tech - Actualización de Contraseña",
+                "Su contraseña ha sido actualizada exitosamente");
+
+
+        user.setPassword(changePasswordRequest.getNewPassword());
+        userEntityRepository.save(user);
+
+        return "Password changed successfully";
+    }
+
+
 }

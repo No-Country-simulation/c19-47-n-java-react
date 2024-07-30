@@ -10,7 +10,7 @@ const ViewPerfil = () => {
   return (
     <div className="w-full h-full flex flex-col items-center bg-slate-50">
       <Header />
-      <div className="w-5/6 md:w-1/2 flex flex-col justify-center items-center sm:max-w-[500px] p-4 mt-24 bg-slate-300 rounded-lg">
+      <div className="w-5/6 md:w-1/2 flex flex-col justify-center items-center sm:max-w-[500px] p-4 mt-8 bg-slate-300 rounded-lg">
       <h2 className="text-2xl font-bold mb-3 text-blue-950">Mi perfil</h2>
         <div className="flex flex-col items-center w-full bg-slate-200 rounded-lg p-4 gap-6">
           <div className="flex flex-col text-start w-full">

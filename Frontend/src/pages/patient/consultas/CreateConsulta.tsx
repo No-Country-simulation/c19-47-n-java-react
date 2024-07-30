@@ -56,7 +56,7 @@ const CreateConsulta = () => {
   const [doctors, setDoctors] = useState<any[]>([]);
   const [days, setDays] = useState<any[]>([]);
   const [selectDoctor, setSelectDoctor] = useState<number | null>(null);
-  const [selectDay, setSelectDay] = useState<Date | null>(null);
+  const [selectDay, setSelectDay] = useState<string>("");
   const [selectMotive, setSelectMotive] = useState<string>("");
   const [disabledDays, setDisabledDays] = useState<number[]>([]);
   const [showSucessModal, setShowSuccessModal] = useState(false);
@@ -97,9 +97,10 @@ const CreateConsulta = () => {
           ];
 
           const sortedDays = filteredDays
-            .map((day: any) => spanishToDayIndex(day.day))
+            // .map((day: any) => spanishToDayIndex(day.day))
             .filter((index: number) => index !== -1);
 
+            setDays(sortedDays)
           setDisabledDays(sortedDays);
         } catch (error) {}
       };
@@ -122,10 +123,10 @@ const CreateConsulta = () => {
     setShowErrorModal(false);
     setShowSuccessModal(false);
 
-    const formatedDateString = selectDay?.toISOString()
+    // const formatedDateString = selectDay?.toISOString()
 
     const data = {
-      day: formatedDateString,
+      day: selectDay,
       motive: selectMotive,
       doctorId: selectDoctor,
       patientId: user?.id,
@@ -206,6 +207,7 @@ const CreateConsulta = () => {
             <label htmlFor="day" className="text-gray-700">
               Seleccione una fecha
             </label>
+            {/* Futura mejora 
             <DatePicker
               selected={selectDay}
               onChange={(date: Date | null) => setSelectDay(date)}
@@ -216,8 +218,8 @@ const CreateConsulta = () => {
               className="px-3 py-2 text-sm w-full rounded-md border border-slate-300 shadow-sm 
               focus:outline-none sm:text-sm focus:ring-1"
               disabled={selectDoctor?false:true}
-            />
-            {/* <select
+            /> */}
+            <select
               name=""
               id="day"
               className="px-3 py-2 text-sm w-full rounded-md border border-slate-300 shadow-sm 
@@ -233,7 +235,7 @@ const CreateConsulta = () => {
                     day.day.slice(1).toLowerCase()}
                 </option>
               ))}
-            </select> */}
+            </select>
           </div>
 
           <div className="flex flex-col gap-3">

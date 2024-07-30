@@ -114,7 +114,7 @@ const ViewHorarioLaboral = () => {
               )}
               <tr className="bg-gray-100 text-gray-700 font-bold text-sm">
                 <td className="text-start border border-b-gray-400 p-3">
-                  Total de turnos disponibles por semana
+                  Total de turnos disponibles
                 </td>
                 <td className="text-end border border-b-gray-400 p-3">
                   {calculateTotalShifts()}

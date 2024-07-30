@@ -37,7 +37,7 @@ const ViewDoctors = () => {
           <table className="w-full bg-white rounded-lg divide-y divide-gray-300">
             <thead>
               <tr className="text-gray-700 font-bold text-sm">
-                <th className="border border-b-gray-400 p-3">Nombre</th>
+                <th className="border border-b-gray-400 p-3">Nombre completo</th>
                 <th className="border border-b-gray-400 p-3">
                   Fecha de nacimiento
                 </th>
@@ -46,7 +46,7 @@ const ViewDoctors = () => {
                 </th>
                 <th className="border border-b-gray-400 p-3">Documentación</th>
                 <th className="border border-b-gray-400 p-3">Género</th>
-                <th className="border border-b-gray-400 p-3">Seguro médico</th>
+                <th className="border border-b-gray-400 p-3">Especialidad</th>
                 <th className="border border-b-gray-400 p-3">
                   Licencia médica
                 </th>

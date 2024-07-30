@@ -10,5 +10,6 @@ public interface ConsultationService {
 
     List<ConsultationEntity> getConsultationsByPatientId(Long id);
 
+    List<ConsultationEntity> getConsultationsByDoctorId(Long doctorId);
 }
 

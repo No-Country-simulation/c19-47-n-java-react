@@ -44,5 +44,10 @@ public class ConsultationController {
     }
 
 
+    @GetMapping("/{doctorId}/doctor")
+    public ResponseEntity<List<ConsultationEntity>> getConsultationsByDoctorId(@PathVariable Long doctorId) {
+        return ResponseEntity.status(HttpStatus.OK).body(consultationService.getConsultationsByDoctorId(doctorId));
+    }
+
 
 }

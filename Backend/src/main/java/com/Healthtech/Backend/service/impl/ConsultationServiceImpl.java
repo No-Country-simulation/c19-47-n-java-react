@@ -54,4 +54,14 @@ public class ConsultationServiceImpl implements ConsultationService {
 
         return consultationRepository.findByPaciente(patient);
     }
+
+    @Override
+    public List<ConsultationEntity> getConsultationsByDoctorId(Long doctorId) {
+
+        DoctorEntity doctor = DoctorEntity.builder()
+                .idDoctor(doctorId)
+                .build();
+
+        return consultationRepository.findByDoctor(doctor);
+    }
 }

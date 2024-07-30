@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../../../components/Header";
 import Button from "../../../../components/Button";
 import axios from "axios";
@@ -6,6 +6,29 @@ import { URLs } from "../../../../config.tsx";
 import Modal from "../../../../components/Modal";
 import { BsPersonCheck } from "react-icons/bs";
 import { RiErrorWarningFill } from "react-icons/ri";
+
+const specialtys = [
+  { "id": 1, "name": "Cardiología" },
+  { "id": 2, "name": "Dermatología" },
+  { "id": 3, "name": "Gastroenterología" },
+  { "id": 4, "name": "Neurología" },
+  { "id": 5, "name": "Oftalmología" },
+  { "id": 6, "name": "Otorrrinolaringología" },
+  { "id": 7, "name": "Pediatría" },
+  { "id": 8, "name": "Psiquiatría" },
+  { "id": 9, "name": "Reumatología" },
+  { "id": 10, "name": "Cirugía General" },
+  { "id": 11, "name": "Medicina Interna" },
+  { "id": 12, "name": "Endocrinología" },
+  { "id": 13, "name": "Ginecología" },
+  { "id": 14, "name": "Urología" },
+  { "id": 15, "name": "Oncología" },
+  { "id": 16, "name": "Neumología" },
+  { "id": 17, "name": "Traumatología" },
+  { "id": 18, "name": "Cirugía Plástica" },
+  { "id": 19, "name": "Medicina de Urgencias" },
+  { "id": 20, "name": "Patología" }
+]
 
 type DoctorData = {
   firstName: string;
@@ -33,6 +56,7 @@ const DoctorRegister = () => {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [errorServer, setErrorServer] = useState("");
+  const [date,setDate] = useState('')
 
   const [doctor, setDoctor] = useState<DoctorData>({
     firstName: "",
@@ -55,6 +79,12 @@ const DoctorRegister = () => {
     specialty: "",
     license: "",
   });
+
+  useEffect(()=>{
+    const today = new Date()
+    const dateFormat = today.toISOString().split('T')[0]
+    setDate(dateFormat)
+  },[])
 
   const handleValidateForm = () => {
     const nameRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
@@ -274,6 +304,7 @@ const DoctorRegister = () => {
               type="date"
               id="birthdate"
               value={doctor.birthDate}
+              max={date}
               onChange={handleChange("birthDate")}
               className={`px-3 py-2 text-sm w-full rounded-md focus:outline-none focus:ring-sky-500 ${
                 error
@@ -400,22 +431,18 @@ const DoctorRegister = () => {
               Especialidad
             </label>
             <select
-              id="specialty"
-              value={doctor.specialty}
-              onChange={handleChange("specialty")}
-              className={`px-3 py-2 text-sm w-full rounded-md focus:outline-none focus:ring-sky-500 ${
-                error
-                  ? error.specialty
-                    ? `border border-red-500 placeholder-red-500 focus:ring-red-600 text-red-600`
-                    : `border border-sky-500`
-                  : `border shadow-sm border-slate-300 placeholder-slate-400 
-      focus:outline-none sm:text-sm focus:ring-1`
-              }`}
-            >
-              <option value="">Seleccione uno...</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-            </select>
+          id="healthInsurance"
+          value={doctor.specialty}
+          onChange={handleChange("specialty")}
+          className={`px-3 py-2 text-sm w-full rounded-md focus:ring-sky-500 border border-slate-300 shadow-sm placeholder-slate-400 focus:outline-none sm:text-sm focus:ring-1`}
+        >
+          <option value="">Seleccione una especialidad</option>
+          {specialtys.map((specialty) => (
+            <option key={specialty.id} value={specialty.name}>
+              {specialty.name}
+            </option>
+          ))}
+        </select>
           </div>
 
           <Button color="type-1" onClick={handleSubmit}>

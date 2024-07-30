@@ -37,8 +37,8 @@ const Modal = ({
   }
 
   return showModal ? (
-    <div className="h-screen w-screen bg-slate-900 bg-opacity-70 fixed inset-0 flex justify-center items-center">
-      <div className="bg-white flex flex-col rounded-lg p-8 w-4/5 sm:max-w-[500px] ">
+    <div className="h-screen w-screen bg-slate-900 bg-opacity-70 fixed inset-0 flex justify-center items-center z-50">
+      <div className="bg-white fixed z-50 flex flex-col rounded-lg p-8 w-4/5 sm:max-w-[500px] ">
         <div className="flex justify-end">
           <IoCloseOutline
             size="1.5rem"

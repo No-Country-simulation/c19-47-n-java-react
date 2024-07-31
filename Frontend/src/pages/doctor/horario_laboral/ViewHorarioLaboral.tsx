@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { URLs } from "../../../config";
 import { useAuth } from "../../../context/AuthProvider";
+import Footer from "../../../components/Footer";
 
 type WorkSchedules = {
   shiftsPerDay: number;
@@ -124,6 +125,7 @@ const ViewHorarioLaboral = () => {
           </table>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

@@ -74,7 +74,7 @@ const ConfirmRegister = ({ patient, medical, prevStep }: RegisterProps) => {
       const resultPatient = await axios.post(URLs.ADD_PATIENT, dataPatient);
       
       if (resultPatient.status === 201) {
-        console.log("Paciente agregado");
+        console.log("Paciente agregado.");
         setShowSuccessModal(true)
 
         const { chronicDiseases, medications, allergies } = medical;
@@ -94,9 +94,9 @@ const ConfirmRegister = ({ patient, medical, prevStep }: RegisterProps) => {
           );
  
           if (resultMedicalHistory.status === 201) {
-            console.log("Historia médica agregada");
+            console.log("Historia médica agregada.");
           }else{
-            console.log("Error al agregar historia médica");
+            console.log("Error al agregar historia médica.");
             setShowErrorModal(true)
             setError('Ha ocurrido un error, inténtelo nuevamente.')
           }
@@ -109,7 +109,7 @@ const ConfirmRegister = ({ patient, medical, prevStep }: RegisterProps) => {
     } catch (error) {
       console.error(error);
       const errorMsg = (error as any).response?.data?.error
-      console.warn(errorMsg)
+      console.error(errorMsg)
       setError(errorMsg)
       setShowErrorModal(true)
     } finally {
@@ -150,7 +150,7 @@ const ConfirmRegister = ({ patient, medical, prevStep }: RegisterProps) => {
         Si los datos son incorrectos presiona <strong>Volver</strong>
       </p>
 
-      <div className="flex flex-col lg:flex-row lg:justify-around">
+      <div className="flex flex-col lg:flex-row lg:justify-around mb-4">
         <div className="flex flex-col lg:w-1/2 lg:p-6">
           <p className="text-gray-700 text-center text-lg font-semibold mb-4">
             Datos personales

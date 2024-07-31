@@ -28,7 +28,6 @@ const Login = () => {
     try {
       const resultUser = await axios.post(URLs.LOG_IN, data)
       const { id, role } = resultUser.data
-      console.log(resultUser)
 
       await login({ id, role })
 
@@ -49,9 +48,13 @@ const Login = () => {
       } else {
         setError("Credenciales incorrectas. Inténtelo nuevamente.")
       }
-    } catch (error) {
+    } catch (error : any) {
+      let defaultError = "Error al iniciar sesión. Inténtelo nuevamente."
+      if (error?.response?.data === "Invalid password"){
+        defaultError = "La contraseña no es correcta. Compruébala."
+      }
       console.error("Error al iniciar sesión:", error)
-      setError("Error al iniciar sesión. Inténtelo nuevamente.")
+      setError(defaultError)
     }
   }
 

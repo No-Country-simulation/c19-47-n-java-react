@@ -20,7 +20,7 @@ public class BackendApplication {
 		return args -> {
 
 			UserEntity userEntity = UserEntity.builder()
-					.email("cami@gmail.com")
+					.email("admin@gmail.com")
 					.password("1234")
 					.role("ADMIN")
 					.build();

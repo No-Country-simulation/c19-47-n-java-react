@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { RiMentalHealthFill } from "react-icons/ri";
@@ -72,7 +72,8 @@ const Header = () => {
             <Link to="/medicos/home" className="hover:text-sky-950">Inicio</Link>
             <Link to="/medicos/perfil" className="hover:text-sky-950">Perfil</Link>
             <Link to="/medicos/horarios-laborales" className="hover:text-sky-950">Horarios laborales</Link>
-            <Link to="/medicos/consultas" className="hover:text-sky-950">Consultas</Link>
+            <Link to="/medicos/consultas-programadas" className="hover:text-sky-950">Consultas</Link>
+            <Link to="/medicos/historiales-clinicos" className="hover:text-sky-950">Historiales clínicos</Link>
           </>
         )}
 
@@ -106,7 +107,8 @@ const Header = () => {
             <Link to="/medicos/home" className="hover:text-sky-950">Inicio</Link>
             <Link to="/medicos/perfil" className="hover:text-sky-950">Perfil</Link>
             <Link to="/medicos/horarios-laborales" className="hover:text-sky-950">Horarios laborales</Link>
-            <Link to="/medicos/consultas" className="hover:text-sky-950">Consultas</Link>
+            <Link to="/medicos/consultas-programadas" className="hover:text-sky-950">Consultas</Link>
+            <Link to="/medicos/historiales-clinicos" className="hover:text-sky-950">Historiales clínicos</Link>
           </>
         )}
 

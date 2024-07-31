@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Header from "../../../../components/Header";
-import Button from "../../../../components/Button";
 import InformacionPaciente from "./PatientInfo";
 import HistorialClinico from "./MedicalHistory";
 import ConfirmarRegistro from "./ConfirmarRegistro";
+import Footer from "../../../../components/Footer";
 
 const PatientRegister = () => {
   const [step, setStep] = useState(1);
@@ -124,6 +124,7 @@ const PatientRegister = () => {
             return null;
         }
       })()}
+      <Footer/>
     </div>
   );
 };

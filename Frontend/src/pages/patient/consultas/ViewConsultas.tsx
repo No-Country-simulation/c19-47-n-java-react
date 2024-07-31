@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { URLs } from "../../../config";
 import { useAuth } from "../../../context/AuthProvider";
 import axios from "axios";
+import Footer from "../../../components/Footer";
 
 interface Doctor {
   idDoctor: number;
@@ -36,7 +37,7 @@ const ViewConsultas = () => {
     const fetchConsultations = async () => {
       if (patient?.id) {
         try {
-          const getConsultations = URLs.getConsultationUrl(patient?.id);
+          const getConsultations = URLs.getConsultationPatientUrl(patient?.id);
           const response = await axios.get(getConsultations);
           
           if (Array.isArray(response.data) && response.data.length > 0){
@@ -54,7 +55,7 @@ const ViewConsultas = () => {
   }, []);
 
   return (
-    <div className="w-full h-full flex flex-col lg:items-center bg-slate-300">
+    <div className="w-full min-h-screen flex flex-col lg:items-center bg-slate-300">
       <Header />
       <div className="w-full lg:max-w-[900px] flex flex-col md:flex-row gap-5 justify-between p-3 lg:p-0 lg:m-7">
         <h2 className="font-bold text-gray-700 text-2xl md:text-3xl pt-3 pl-3">
@@ -64,12 +65,13 @@ const ViewConsultas = () => {
           <Button color="type-4">Programar consulta</Button>
         </Link>
       </div>
-      <div className="w-full lg:max-w-[900px]">
+      <div className="w-full lg:max-w-[1000px]">
         <div className={`grid place-items-center items-stretch ${showConsultas ? 'md:grid-cols-2' : 'grid-cols-1'}`}>
           {showConsultas ? (
             consultas.map((consulta) => (
-              <div className="bg-white rounded-lg w-5/6 sm:w-2/3 p-5 m-3 flex flex-col gap-6">
+              <div key={consulta.id} className="bg-white rounded-lg w-5/6 sm:w-2/3 p-5 m-3 flex flex-col gap-6">
                 <div>
+                  <p className="text-gray-500 text-xs mb-3">N° de consulta: #{consulta.id}</p>
                   <h3 className="text-2xl text-gray-900 font-bold">
                     {consulta.doctor.gender === "female" ? "Dra. " : "Dr. "}
                     {consulta.doctor.firstName + " " + consulta.doctor.lastName}
@@ -96,6 +98,7 @@ const ViewConsultas = () => {
           )}
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

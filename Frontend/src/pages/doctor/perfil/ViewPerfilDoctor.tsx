@@ -1,8 +1,8 @@
-import React from "react";
 import Header from "../../../components/Header";
 import Button from "../../../components/Button";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/AuthProvider";
+import Footer from "../../../components/Footer";
 
 const ViewPerfilDoctor = () => {
 
@@ -11,7 +11,7 @@ const ViewPerfilDoctor = () => {
 
 
   return (
-    <div className="w-full h-full flex flex-col items-center bg-slate-50">
+    <div className="w-full h-full flex flex-col items-center bg-white">
       <Header />
       <div className="w-5/6 md:w-1/2 flex flex-col justify-center items-center sm:max-w-[500px] p-4 mt-10 bg-slate-300 rounded-lg">
       <h2 className="text-2xl font-bold mb-3 text-blue-950">Mi perfil</h2>
@@ -33,7 +33,7 @@ const ViewPerfilDoctor = () => {
             </label>
             <input
               type="text"
-              value={doctor?.birthDate}
+              value={`${doctor?.birthDate.split('-')[2]}-${doctor?.birthDate.split('-')[1]}-${doctor?.birthDate.split('-')[0]}`}
               disabled
               className="bg-slate-200"
             />
@@ -85,6 +85,7 @@ const ViewPerfilDoctor = () => {
           </Link>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

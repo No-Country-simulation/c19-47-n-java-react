@@ -12,14 +12,15 @@ import ViewHorarioLaboral from "./pages/doctor/horario_laboral/ViewHorarioLabora
 import CreateHorarioLaboral from "./pages/doctor/horario_laboral/CreateHorarioLaboral";
 import ViewHistorialClinico from "./pages/doctor/acceso_historial_clinico/ViewHistorialClinico";
 import ViewHistorialClinicoPaciente from "./pages/doctor/acceso_historial_clinico/ViewHistorialClinicoPaciente";
-import ConsultasHome from "./pages/patient/consultas/ViewConsultas";
 import CreateConsulta from "./pages/patient/consultas/CreateConsulta";
 import ViewConsultas from "./pages/patient/consultas/ViewConsultas";
+import ViewConsultasDoctor from "./pages/doctor/consultas/ViewConsultasDoctor";
 import ViewPerfil from "./pages/patient/perfil/ViewPerfil";
 import ChangePassword from "./pages/ChangePassword";
 import { AuthProvider } from "./context/AuthProvider";
 import ProtectedRouter from "./components/ProtectedRouter";
 import ViewPerfilDoctor from "./pages/doctor/perfil/ViewPerfilDoctor";
+import { RiMentalHealthLine } from "react-icons/ri";
 
 function App() {
   return (
@@ -80,6 +81,10 @@ function App() {
             <Route
               path="/medicos/historial-clinico/:id"
               element={<ViewHistorialClinicoPaciente />}
+            />
+            <Route
+              path="/medicos/consultas-programadas"
+              element={<ViewConsultasDoctor />}
             />
           </Route>
         </Routes>

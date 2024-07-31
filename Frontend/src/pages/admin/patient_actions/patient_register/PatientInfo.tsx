@@ -130,13 +130,11 @@ const PatientInfo = ({ nextStep, handleChange, values }: RegisterProps) => {
 
     if (hasErrors) {
       nextStep();
-    } else {
-      console.error(hasErrors);
     }
   };
 
   return (
-    <form className="rounded-lg bg-zinc-50 border-2 border-zinc-300 px-10 pt-6 pb-8 w-[90%] sm:w-[80%] max-w-[500px]">
+    <form className="rounded-lg bg-zinc-50 border-2 border-zinc-300 px-10 pt-6 pb-8 w-[90%] sm:w-[80%] max-w-[500px] mb-4">
       <h4 className="text-lg font-semibold mb-5 text-zinc-800 text-center">
         INFORMACIÓN PERSONAL
       </h4>

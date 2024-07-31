@@ -1,85 +1,112 @@
-import React, { useEffect, useState } from "react"
-import Header from "../../../components/Header"
-import Button from "../../../components/Button"
-import axios from "axios"
-import { URLs } from "../../../config"
-import { useNavigate } from "react-router-dom"
-import { useAuth } from "../../../context/AuthProvider"
+import React, { useEffect, useState } from "react";
+import Header from "../../../components/Header";
+import Button from "../../../components/Button";
+import axios from "axios";
+import { URLs } from "../../../config";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthProvider";
+import Footer from "../../../components/Footer";
 
 type WorkSchedule = {
-  id: number
-  shiftsPerDay: number
-  day: string
+  id: number;
+  shiftsPerDay: number;
+  day: string;
   doctor: {
-    idDoctor: number
-    firstName: string
-    lastName: string
-    birthDate: string
-    documentation: string
-    gender: string
-    specialty: string
-    email: string
-    license: number
-    state: boolean
-  }
-}
+    idDoctor: number;
+    firstName: string;
+    lastName: string;
+    birthDate: string;
+    documentation: string;
+    gender: string;
+    specialty: string;
+    email: string;
+    license: number;
+    state: boolean;
+  };
+};
 
 const CreateHorarioLaboral = () => {
-  const {getDoctor} = useAuth()
-  const doctor = getDoctor()
+  const { getDoctor } = useAuth();
+  const doctor = getDoctor();
 
-  const navigate = useNavigate()
-  const [daysUsed, setDaysUsed] = useState<string[]>([])
-  const [quantityShift, setQuantityShift] = useState<number>()
-  const [days, setDays] = useState<string[]>([])
+  const navigate = useNavigate();
+  const [daysUsed, setDaysUsed] = useState<string[]>([]);
+  const [quantityShift, setQuantityShift] = useState<number>();
+  const [days, setDays] = useState<string[]>([]);
+  const [errors, setErrors] = useState({
+    quantityShift: "",
+    days: "",
+  });
 
   useEffect(() => {
-    const doctorId = doctor?.id
+    const doctorId = doctor?.id;
     const getDaysUsed = async () => {
       try {
-        const response = await axios.get(URLs.DOCTOR_WORK_SCHEDULES)
+        const response = await axios.get(URLs.DOCTOR_WORK_SCHEDULES);
         const foundDaysUsed = response.data
           .filter((item: WorkSchedule) => item.doctor.idDoctor === doctorId)
-          .map((item: WorkSchedule) => item.day)
-        setDaysUsed(foundDaysUsed)
-        setDays(foundDaysUsed)
+          .map((item: WorkSchedule) => item.day);
+        setDaysUsed(foundDaysUsed);
+        setDays(foundDaysUsed);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
-    getDaysUsed()
-  }, [])
+    };
+    getDaysUsed();
+  }, []);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id } = e.target
+    const { id } = e.target;
 
     if (days.includes(id)) {
-      setDays(days.filter((day) => day !== id))
+      setDays(days.filter((day) => day !== id));
     } else {
       // Si el día no está en days, agregarlo (permitir marcar)
-      setDays([...days, id])
+      setDays([...days, id]);
     }
-  }
+  };
+
+  const validateForm = (days : Array<string>) => {
+    let hasErrors = false;
+    const errors = {
+      quantityShift: "",
+      days: "",
+    };
+
+    if (quantityShift === 0 || quantityShift === undefined) {
+      errors.quantityShift = "La cantidad de turnos es obligatoria";
+      hasErrors = true;
+    }
+
+    if (days.length <= 0) {
+      errors.days = "Debes seleccionar al menos un día";
+      hasErrors = true;
+    }
+    setErrors(errors);
+    return hasErrors;
+  };
 
   const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const newDays = days.filter((day) => !daysUsed.includes(day))
-    console.log(newDays)
-    const data = {
-      shiftsPerDay: quantityShift,
-      days: newDays,
-      doctorId: doctor?.id,
-    }
+    const newDays = days.filter((day) => !daysUsed.includes(day));
+    const hasErrors = validateForm(newDays);
 
-    try {
-      const response = await axios.post(URLs.DOCTOR_WORK_SCHEDULES, data)
-      navigate("/medicos/horarios-laborales")
-      console.log(response.data)
-    } catch (error) {
-      console.log(error)
+    if (!hasErrors) {
+      const data = {
+        shiftsPerDay: quantityShift,
+        days: newDays,
+        doctorId: doctor?.id,
+      };
+
+      try {
+        await axios.post(URLs.DOCTOR_WORK_SCHEDULES, data);
+        navigate("/medicos/horarios-laborales");
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
+  };
 
   return (
     <div className="w-full h-full flex flex-col items-center">
@@ -102,8 +129,11 @@ const CreateHorarioLaboral = () => {
             id="turnos"
             onChange={(e) => setQuantityShift(Number(e.target.value))}
             className={`px-3 py-2 text-sm w-full rounded-md border shadow-sm  bg-zinc-100
-              focus:outline-none sm:text-sm focus:ring-1 disabled:shadow-none`}
+              focus:outline-none sm:text-sm focus:ring-1 disabled:shadow-none ${errors.quantityShift && 'border border-red-500'}`}
           />
+          {errors.quantityShift && (
+            <p className="text-sm text-red-500">{errors.quantityShift}</p>
+          )}
           <label htmlFor="lunes" className="text-gray-700 mt-3">
             Seleccione los días
           </label>
@@ -130,6 +160,9 @@ const CreateHorarioLaboral = () => {
               </label>
             </div>
           ))}
+          {errors.days && (
+            <p className="text-sm text-red-500">{errors.days}</p>
+          )}
           <div className="mt-5">
             <Button color="type-1" type="submit">
               Agregar
@@ -137,7 +170,8 @@ const CreateHorarioLaboral = () => {
           </div>
         </form>
       </div>
+      <Footer/>
     </div>
-  )
-}
-export default CreateHorarioLaboral
+  );
+};
+export default CreateHorarioLaboral;

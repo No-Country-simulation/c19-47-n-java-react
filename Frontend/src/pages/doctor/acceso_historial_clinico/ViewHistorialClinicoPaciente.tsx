@@ -1,8 +1,9 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { URLs } from "../../../config";
 import Header from "../../../components/Header";
+import Footer from "../../../components/Footer";
 
 type ClinicalHistory = {
   idClinicalHistory?: number;
@@ -71,7 +72,6 @@ const ViewHistorialClinicoPaciente = () => {
           const foundPatient = patients.find(
             (patient: PatientData) => patient.idPaciente === id_patient
           )
-          console.log(patient)
 
           if (!foundPatient) {
             navigate("/medicos/historiales-clinicos")
@@ -82,12 +82,14 @@ const ViewHistorialClinicoPaciente = () => {
           const foundClinicalHistory = response.data.find(
             (item: ClinicalHistory) => item.patient.idPaciente === id_patient
           )
+          console.log(foundClinicalHistory)
+
 
           if (foundClinicalHistory) {
             setClinicalHistory(foundClinicalHistory)
-            console.log("Historial clínico encontrado:", foundClinicalHistory)
+            console.log("Historial clínico encontrado.")
           } else {
-            console.log("No se encontró historial clínico para el paciente")
+            console.log("El paciente no tiene historial clínico.")
           }
         } catch (error) {
           console.log("Error al obtener historial clinico")
@@ -98,7 +100,7 @@ const ViewHistorialClinicoPaciente = () => {
   }, [])
 
   return (
-    <div className="w-full flex flex-col items-center bg-slate-300">
+    <div className="w-full min-h-screen flex flex-col lg:items-center bg-slate-300">
       <Header />
       <div className="w-full flex flex-col gap-2 justify-between items-center p-7 bg-slate-300">
         <div className="rounded-lg bg-white border-2 border-zinc-300 px-10 pt-6 pb-6 w-[90%] sm:w-[80%] max-w-[500px]">
@@ -124,7 +126,7 @@ const ViewHistorialClinicoPaciente = () => {
               </p>
               <input
                 type="text"
-                value={patient?.birthDate}
+                value={`${patient?.birthDate.split("-")[2]}-${patient?.birthDate.split("-")[1]}-${patient?.birthDate.split("-")[0]}`}
                 className="px-3 py-2 text-sm w-full rounded-md border bg-slate-200  border-slate-300 text-gray-600 sm:text-sm disabled:shadow-none"
                 disabled
               />
@@ -150,7 +152,7 @@ const ViewHistorialClinicoPaciente = () => {
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col gap-2 justify-between items-center bg-slate-300">
+      <div className="w-full flex flex-col gap-2 justify-between items-center bg-slate-300 mb-4">
         <div className="rounded-lg bg-white border-2 border-zinc-300 px-3 md:px-10 pt-6 pb-6 w-full sm:w-[80%] max-w-[500px]">
           <h4 className="text-lg font-semibold mb-4 text-gray-900 text-center">
             Historial clínico
@@ -215,6 +217,7 @@ const ViewHistorialClinicoPaciente = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

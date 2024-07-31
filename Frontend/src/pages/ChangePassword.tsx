@@ -8,6 +8,7 @@ import Modal from "../components/Modal";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { BsPersonCheck } from "react-icons/bs";
 import { TbPasswordUser } from "react-icons/tb";
+import Footer from "../components/Footer";
 
 const ChangePassword = () => {
   const { getPatient, getDoctor } = useAuth();
@@ -93,7 +94,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center bg-slate-50">
+    <div className="w-full h-full flex flex-col items-center bg-white">
       <Header />
       {showErrorModal ? (
         <Modal
@@ -196,6 +197,7 @@ const ChangePassword = () => {
           </Button>
         </form>
       </div>
+      <Footer/>
     </div>
   );
 };

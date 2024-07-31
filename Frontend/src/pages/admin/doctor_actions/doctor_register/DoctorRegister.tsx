@@ -6,6 +6,7 @@ import { URLs } from "../../../../config.tsx";
 import Modal from "../../../../components/Modal";
 import { BsPersonCheck } from "react-icons/bs";
 import { RiErrorWarningFill } from "react-icons/ri";
+import Footer from "../../../../components/Footer.tsx";
 
 const specialtys = [
   { "id": 1, "name": "Cardiología" },
@@ -201,9 +202,7 @@ const DoctorRegister = () => {
         setErrorServer(errorMsg);
         setShowErrorModal(true);
       }
-    } else {
-      console.error(hasErrors);
-    }
+    } 
   };
 
   const handleChange =
@@ -214,7 +213,7 @@ const DoctorRegister = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center h-full">
+      <div className="flex flex-col items-center min-h-screen">
         <Header/>
         {showErrorModal ? (
           <Modal
@@ -237,7 +236,7 @@ const DoctorRegister = () => {
           )
         )}
         <h2 className="text-3xl mb-10 mt-10 font-bold text-zinc-700">Nuevo médico</h2>
-        <form className="rounded-lg bg-zinc-50 border-2 border-zinc-300 px-10 pt-6 pb-8 w-[90%] sm:w-[80%] max-w-[500px]">
+        <form className="rounded-lg bg-zinc-50 border-2 border-zinc-300 px-10 pt-6 pb-8 w-[90%] sm:w-[80%] max-w-[500px] mb-4">
           <h4 className="text-lg font-semibold mb-5 text-zinc-800 text-center">
             INFORMACIÓN PERSONAL
           </h4>
@@ -449,6 +448,7 @@ const DoctorRegister = () => {
             Registrar médico
           </Button>
         </form>
+        <Footer/>
       </div>
     </>
   );

@@ -4,13 +4,10 @@ import Header from "../../../components/Header";
 import axios from "axios";
 import { URLs } from "../../../config";
 import Modal from "../../../components/Modal";
-import { RiErrorWarningFill } from "react-icons/ri";
 import { LuCalendarCheck } from "react-icons/lu";
 import { LuCalendarX } from "react-icons/lu";
 import { useAuth } from "../../../context/AuthProvider";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { es } from "date-fns/locale";
+import Footer from "../../../components/Footer";
 
 const motives = [
   {
@@ -39,28 +36,19 @@ const motives = [
   },
 ];
 
-const spanishToDayIndex = (day: string): number => {
-  const days: Record<string, number> = {
-    domingo: 0,
-    lunes: 1,
-    martes: 2,
-    miércoles: 3,
-    jueves: 4,
-    viernes: 5,
-    sábado: 6,
-  };
-  return days[day.toLowerCase()] ?? -1; // Retorna -1 si el día no está en el objeto
-};
-
 const CreateConsulta = () => {
   const [doctors, setDoctors] = useState<any[]>([]);
   const [days, setDays] = useState<any[]>([]);
   const [selectDoctor, setSelectDoctor] = useState<number | null>(null);
   const [selectDay, setSelectDay] = useState<string>("");
   const [selectMotive, setSelectMotive] = useState<string>("");
-  const [disabledDays, setDisabledDays] = useState<number[]>([]);
   const [showSucessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errors, setErrors] = useState({
+    doctorId: "",
+    day: "",
+    motive: "",
+  });
 
   const { getPatient } = useAuth();
   const user = getPatient();
@@ -87,21 +75,22 @@ const CreateConsulta = () => {
             (day: any) => day.doctor.idDoctor === selectDoctor
           );
           const diasOrdenados = [
-            "domingo",
             "lunes",
             "martes",
             "miércoles",
             "jueves",
             "viernes",
             "sábado",
+            "domingo",
           ];
 
-          const sortedDays = filteredDays
-            // .map((day: any) => spanishToDayIndex(day.day))
-            .filter((index: number) => index !== -1);
+          // Crear un conjunto para facilitar la búsqueda
+          const daySet = new Set(filteredDays.map((day: any) => day.day));
 
-            setDays(sortedDays)
-          setDisabledDays(sortedDays);
+          // Filtrar y ordenar los días en base a `diasOrdenados`
+          const sortedDays = diasOrdenados.filter((day) => daySet.has(day));
+
+          setDays(sortedDays);
         } catch (error) {}
       };
       getDays();
@@ -110,12 +99,31 @@ const CreateConsulta = () => {
     }
   }, [selectDoctor]);
 
-  const isDisabled = (date: Date): boolean => {
-    if (disabledDays.length === 0) {
-      return false; // No hay días desactivados, por lo que no se debe desactivar ninguna fecha
+  const validateForm = () => {
+    let hasErrors = false;
+    const errors = {
+      doctorId: "",
+      day: "",
+      motive: "",
+    };
+
+    if (selectDoctor === null) {
+      errors.doctorId = "Debes seleccionar un médico";
+      hasErrors = true;
     }
-    const day = date.getDay();
-    return !disabledDays.includes(day);
+
+    if (selectDay === "") {
+      errors.day = "Debes seleccionar un día";
+      hasErrors = true;
+    }
+
+    if (selectMotive === "") {
+      errors.motive = "Debes seleccionar un motivo";
+      hasErrors = true;
+    }
+
+    setErrors(errors);
+    return hasErrors;
   };
 
   const handleSubmitForm = async (e: React.FormEvent) => {
@@ -123,26 +131,24 @@ const CreateConsulta = () => {
     setShowErrorModal(false);
     setShowSuccessModal(false);
 
-    // const formatedDateString = selectDay?.toISOString()
+    const hasErrors = validateForm();
 
-    const data = {
-      day: selectDay,
-      motive: selectMotive,
-      doctorId: selectDoctor,
-      patientId: user?.id,
-    };
-
-    console.log(data);
-
-    try {
-      const response = await axios.post(URLs.ADD_CONSULTATION, data);
-      if (response.status === 201) {
-        console.log("Consulta creada");
-        setShowSuccessModal(true);
+    if (!hasErrors){
+      const data = {
+        day: selectDay,
+        motive: selectMotive,
+        doctorId: selectDoctor,
+        patientId: user?.id,
+      };
+      try {
+        const response = await axios.post(URLs.ADD_CONSULTATION, data);
+        if (response.status === 201) {
+          setShowSuccessModal(true);
+        }
+      } catch (error) {
+        console.log(error);
+        setShowErrorModal(true);
       }
-    } catch (error) {
-      console.log(error);
-      setShowErrorModal(true);
     }
   };
 
@@ -188,8 +194,8 @@ const CreateConsulta = () => {
             <select
               name=""
               id="doctor"
-              className="px-3 py-2 text-sm w-full rounded-md border border-slate-300 shadow-sm 
-              focus:outline-none sm:text-sm focus:ring-1"
+              className={`px-3 py-2 text-sm w-full rounded-md border shadow-sm 
+              focus:outline-none sm:text-sm focus:ring-1 ${errors.doctorId && 'border border-red-500'}`}
               onChange={(e) => setSelectDoctor(Number(e.target.value))}
             >
               <option className="text-gray-600" value="">
@@ -197,45 +203,38 @@ const CreateConsulta = () => {
               </option>
               {doctors.map((doctor) => (
                 <option value={doctor.idDoctor} key={doctor.idDoctor}>
-                  {doctor.firstName + " " + doctor.lastName}
+                  {`${doctor.gender === "female" ? "Dra." : "Dr."} ${
+                    doctor.firstName
+                  } ${doctor.lastName} - ${doctor.specialty}`}
                 </option>
               ))}
             </select>
+            {errors.doctorId && (
+              <p className="text-sm text-red-500">{errors.doctorId}</p>
+            )}
           </div>
 
           <div className="flex flex-col gap-3">
             <label htmlFor="day" className="text-gray-700">
               Seleccione una fecha
             </label>
-            {/* Futura mejora 
-            <DatePicker
-              selected={selectDay}
-              onChange={(date: Date | null) => setSelectDay(date)}
-              filterDate={(date: Date) => !isDisabled(date)}
-              dateFormat="dd/MM/yyyy"
-              placeholderText="Selecciona una fecha"
-              locale={es}
-              className="px-3 py-2 text-sm w-full rounded-md border border-slate-300 shadow-sm 
-              focus:outline-none sm:text-sm focus:ring-1"
-              disabled={selectDoctor?false:true}
-            /> */}
             <select
               name=""
               id="day"
-              className="px-3 py-2 text-sm w-full rounded-md border border-slate-300 shadow-sm 
-              focus:outline-none sm:text-sm focus:ring-1"
+              className={`px-3 py-2 text-sm w-full rounded-md border shadow-sm 
+                focus:outline-none sm:text-sm focus:ring-1 ${errors.day && 'border border-red-500'}`}
               onChange={(e) => {
                 setSelectDay(e.target.value);
               }}
             >
               <option value="">Selecciona una opción</option>
               {days.map((day) => (
-                <option value={day.day} key={day.id}>
-                  {day.day.charAt(0).toUpperCase() +
-                    day.day.slice(1).toLowerCase()}
+                <option value={day} key={day}>
+                  {day.charAt(0).toUpperCase() + day.slice(1).toLowerCase()}
                 </option>
               ))}
             </select>
+            {errors.day && <p className="text-sm text-red-500">{errors.day}</p>}
           </div>
 
           <div className="flex flex-col gap-3">
@@ -245,8 +244,8 @@ const CreateConsulta = () => {
             <select
               name=""
               id="motive"
-              className="px-3 py-2 text-sm w-full rounded-md border border-slate-300 shadow-sm 
-              focus:outline-none sm:text-sm focus:ring-1"
+              className={`px-3 py-2 text-sm w-full rounded-md border shadow-sm 
+                focus:outline-none sm:text-sm focus:ring-1 ${errors.motive && 'border border-red-500'}`}
               onChange={(e) => setSelectMotive(e.target.value)}
             >
               <option className="text-gray-600" value="">
@@ -259,6 +258,9 @@ const CreateConsulta = () => {
                 </option>
               ))}
             </select>
+            {errors.motive && (
+              <p className="text-sm text-red-500">{errors.motive}</p>
+            )}
           </div>
 
           <div className="mt-5">
@@ -268,6 +270,7 @@ const CreateConsulta = () => {
           </div>
         </form>
       </div>
+      <Footer/>
     </div>
   );
 };

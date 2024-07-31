@@ -48,7 +48,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const login = async (credentials: { id: number; role: string }) => {
     try {
       let foundUser;
-      console.log(credentials.role)
       switch (credentials.role) {
         case "ADMIN":
           setUser({
@@ -60,7 +59,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
         case "DOCTOR":
           const doctorResponse = await axios.get(URLs.DOCTOR);
-          console.log('Doctor Response:', doctorResponse.data);
           foundUser = doctorResponse.data.find(
             (u: any) => u.idDoctor === credentials.id
           );

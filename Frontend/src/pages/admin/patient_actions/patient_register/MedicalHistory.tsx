@@ -112,7 +112,7 @@ const MedicalHistory = ({
   return (
     <form
       action=""
-      className="rounded-lg bg-zinc-50 border-2 border-zinc-300 px-10 pt-6 pb-6 w-[90%] sm:w-[80%] max-w-[500px]"
+      className="rounded-lg bg-zinc-50 border-2 border-zinc-300 px-10 pt-6 pb-6 w-[90%] sm:w-[80%] max-w-[500px] mb-4"
     >
       <h4 className="text-lg font-semibold mb-4 text-gray-900 text-center">
         HISTORIAL CLÍNICO
@@ -227,7 +227,7 @@ const MedicalHistory = ({
                 Seleccione un médico
               </option>
               {doctors.map((doctor) => (
-                <option value={doctor.firstName+""+doctor.las} key={doctor.idDoctor}>
+                <option value={`${doctor.firstName} ${doctor.lastName}`} key={doctor.idDoctor}>
                   {doctor.firstName + " " + doctor.lastName}
                 </option>
               ))}

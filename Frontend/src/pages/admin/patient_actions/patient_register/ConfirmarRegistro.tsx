@@ -74,7 +74,7 @@ const ConfirmRegister = ({ patient, medical, prevStep }: RegisterProps) => {
       const resultPatient = await axios.post(URLs.ADD_PATIENT, dataPatient);
       
       if (resultPatient.status === 201) {
-        console.log("Paciente agregado");
+        console.log("Paciente agregado.");
         setShowSuccessModal(true)
 
         const { chronicDiseases, medications, allergies } = medical;
@@ -94,9 +94,9 @@ const ConfirmRegister = ({ patient, medical, prevStep }: RegisterProps) => {
           );
  
           if (resultMedicalHistory.status === 201) {
-            console.log("Historia médica agregada");
+            console.log("Historia médica agregada.");
           }else{
-            console.log("Error al agregar historia médica");
+            console.log("Error al agregar historia médica.");
             setShowErrorModal(true)
             setError('Ha ocurrido un error, inténtelo nuevamente.')
           }
@@ -109,7 +109,7 @@ const ConfirmRegister = ({ patient, medical, prevStep }: RegisterProps) => {
     } catch (error) {
       console.error(error);
       const errorMsg = (error as any).response?.data?.error
-      console.warn(errorMsg)
+      console.error(errorMsg)
       setError(errorMsg)
       setShowErrorModal(true)
     } finally {
@@ -125,16 +125,16 @@ const ConfirmRegister = ({ patient, medical, prevStep }: RegisterProps) => {
            type="error"
            title="¡Oops...!" 
            content={error}
+           buttonText="Aceptar"
            icon = {<RiErrorWarningFill />}
            />)
           ) : showSucessModal && (
             <Modal 
             type="success"
             title="¡Paciente registrado!" 
-            content="El paciente se registró con éxito."
+            content=""
             icon = {<BsPersonCheck />}
-            buttonLeft={{text:"Ver pacientes",link:"/admin/pacientes"}}
-            buttonRight={{text:"Nuevo paciente",link:"/admin/pacientes/nuevo"}}
+            buttonText="Aceptar"
             linkClose="/admin/pacientes"
             />
        )
@@ -144,13 +144,13 @@ const ConfirmRegister = ({ patient, medical, prevStep }: RegisterProps) => {
         CONFIRMACIÓN DE DATOS
       </h3>
       <p className="text-center text-base text-gray-600">
-        Si los datos son correctos presiona <strong>Crear paciente</strong>
+        Si los datos son correctos presiona <strong className="text-sky-900">Confirmar</strong>
       </p>
       <p className="mb-6 text-center text-base text-gray-600">
         Si los datos son incorrectos presiona <strong>Volver</strong>
       </p>
 
-      <div className="flex flex-col lg:flex-row lg:justify-around">
+      <div className="flex flex-col lg:flex-row lg:justify-around mb-4">
         <div className="flex flex-col lg:w-1/2 lg:p-6">
           <p className="text-gray-700 text-center text-lg font-semibold mb-4">
             Datos personales
@@ -316,7 +316,7 @@ const ConfirmRegister = ({ patient, medical, prevStep }: RegisterProps) => {
           </div>
           <div className="w-1/3 max-w-[190px]">
             <Button color="type-1" onClick={handleNewPatient}>
-              Registrar paciente
+              Confirmar
             </Button>
           </div>
         </div>

@@ -1,40 +1,60 @@
-import React, { useEffect, useState } from "react"
-import Button from "../../../../components/Button"
+import React, { useEffect, useState } from "react";
+import Button from "../../../../components/Button";
+
+const medicalInsurance = [
+  {
+    id: 1,
+    name: "Blue Cross Blue Shield",
+  },
+  {
+    id: 2,
+    name: "UnitedHealthcare",
+  },
+  {
+    id: 3,
+    name: "Aetna",
+  },
+  {
+    id: 4,
+    name: "Cigna",
+  },
+  {
+    id: 5,
+    name: "Humana",
+  },
+];
 
 type RegisterProps = {
-  nextStep: () => void
+  nextStep: () => void;
   handleChange: (
     field: string,
     dataType: "patient" | "medical"
-  ) => (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
-  values: PatientData
-}
+  ) => (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  values: PatientData;
+};
 
 type PatientData = {
-  firstName: string
-  lastName: string
-  birthDate: string
-  documentation: number
-  gender: string
-  email: string
-  medicalInsurance: string
-}
+  id?: number;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  documentation: number;
+  gender: string;
+  email: string;
+  medicalInsurance: string;
+};
 
 type Error = {
-  name: string
-  lastname: string
-  birthdate: string
-  documentation: string
-  gender: string
-  email: string
-}
+  name: string;
+  lastname: string;
+  birthdate: string;
+  documentation: string;
+  gender: string;
+  email: string;
+};
 
-const PatientInfo = ({
-  nextStep,
-  handleChange,
-  values,
-}: RegisterProps) => {
-  const [date,setDate] = useState('')
+const PatientInfo = ({ nextStep, handleChange, values }: RegisterProps) => {
+  const [date, setDate] = useState("");
   const [error, setError] = useState<Error>({
     name: "",
     lastname: "",
@@ -42,17 +62,17 @@ const PatientInfo = ({
     documentation: "",
     gender: "",
     email: "",
-  })
+  });
 
-  useEffect(()=>{
-    const today = new Date()
-    const dateFormat = today.toISOString().split('T')[0]
-    setDate(dateFormat)
-  },[])
+  useEffect(() => {
+    const today = new Date();
+    const dateFormat = today.toISOString().split("T")[0];
+    setDate(dateFormat);
+  }, []);
 
   const handleValidateForm = () => {
-    const nameRegex =  /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const nameRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const errors: Error = {
       name: "",
       lastname: "",
@@ -60,64 +80,61 @@ const PatientInfo = ({
       documentation: "",
       gender: "",
       email: "",
-    }
+    };
 
     if (!values.firstName || !nameRegex.test(values.firstName)) {
-      errors.name = "El campo nombre admite solo letras y espacio"
+      errors.name = "El campo nombre admite solo letras y espacio";
     } else {
-      errors.name = ""
+      errors.name = "";
     }
 
     if (!values.lastName || !nameRegex.test(values.lastName)) {
-      errors.lastname = "El campo apellido admite solo letras y espacio"
+      errors.lastname = "El campo apellido admite solo letras y espacio";
     } else {
-      errors.lastname = ""
+      errors.lastname = "";
     }
 
     if (!values.birthDate) {
-      errors.birthdate = "Campo obligatorio"
+      errors.birthdate = "Campo obligatorio";
     } else {
-      errors.birthdate = ""
+      errors.birthdate = "";
     }
 
-    const documentation = String(values.documentation)
+    const documentation = String(values.documentation);
     if (documentation === "0" || !documentation || documentation.length > 10) {
       errors.documentation =
-        "El formato documento puede contener hasta 10 dígitos y es obligatorio"
+        "El formato documento puede contener hasta 10 dígitos y es obligatorio";
     } else {
-      errors.documentation = ""
+      errors.documentation = "";
     }
 
     if (values.gender !== "male" && values.gender !== "female") {
-      errors.gender = "Campo obligatorio"
+      errors.gender = "Campo obligatorio";
     } else {
-      errors.gender = ""
+      errors.gender = "";
     }
 
     if (!values.email || !emailRegex.test(values.email)) {
-      errors.email = "El formato del correo electrónico no es válido"
+      errors.email = "El formato del correo electrónico no es válido";
     } else {
-      errors.email = ""
+      errors.email = "";
     }
 
-    setError(errors)
+    setError(errors);
 
-    return Object.values(errors).every((msg) => msg === "")
-  }
+    return Object.values(errors).every((msg) => msg === "");
+  };
 
   const handleSubmit = () => {
-    const hasErrors = handleValidateForm()
+    const hasErrors = handleValidateForm();
 
     if (hasErrors) {
-      nextStep()
-    } else {
-      console.error(hasErrors)
+      nextStep();
     }
-    
-  }
+  };
 
   return (
-    <form className="rounded-lg bg-zinc-50 border-2 border-zinc-300 px-10 pt-6 pb-8 w-[90%] sm:w-[80%] max-w-[500px]">
+    <form className="rounded-lg bg-zinc-50 border-2 border-zinc-300 px-10 pt-6 pb-8 w-[90%] sm:w-[80%] max-w-[500px] mb-4">
       <h4 className="text-lg font-semibold mb-5 text-zinc-800 text-center">
         INFORMACIÓN PERSONAL
       </h4>
@@ -283,19 +300,21 @@ const PatientInfo = ({
           id="healthInsurance"
           value={values.medicalInsurance}
           onChange={handleChange("medicalInsurance", "patient")}
-          className={`px-3 py-2 text-sm w-full rounded-md  focus:ring-sky-500 border border-slate-300 shadow-sm  placeholder-slate-400 focus:outline-none sm:text-sm focus:ring-1
-          `}
+          className={`px-3 py-2 text-sm w-full rounded-md focus:ring-sky-500 border border-slate-300 shadow-sm placeholder-slate-400 focus:outline-none sm:text-sm focus:ring-1`}
         >
           <option value="">Seleccione un seguro médico</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
+          {medicalInsurance.map((insurance) => (
+            <option key={insurance.id} value={insurance.name}>
+              {insurance.name}
+            </option>
+          ))}
         </select>
       </div>
       <Button color="type-1" onClick={handleSubmit}>
         Continuar
       </Button>
     </form>
-  )
-}
+  );
+};
 
-export default PatientInfo
+export default PatientInfo;

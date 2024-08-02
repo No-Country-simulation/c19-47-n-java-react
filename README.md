@@ -9,7 +9,7 @@ Pacientes: Programa consultas, ve consultas programadas y cambia su contraseña.
 
 ## Integrantes
 
-Camila Efler - Frontend
-Jose Cacsire - Backend
-Sergio Vilchez - Backend
+- Camila Efler - Frontend
+- Jose Cacsire - Backend
+- Sergio Vilchez - Backend
 

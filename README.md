@@ -2,7 +2,7 @@
 HealthTech es una webapp diseñada para el centro médico X, que permite a sus pacientes programar consultas médicas desde la comodidad de su hogar.
 
 ## Características del proyecto
-## Usuarios:
+### Usuarios:
 Administrador: Registra a pacientes y médicos.
 Médicos: Define días laborales, accede a historiales clínicos, ve consultas programadas y cambia su contraseña.
 Pacientes: Programa consultas, ve consultas programadas y cambia su contraseña.

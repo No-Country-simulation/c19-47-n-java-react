@@ -17,9 +17,10 @@ Sigue los pasos a continuación para configurar y ejecutar el proyecto:
   __npm install__
 
  #### 3. Credenciales de Acceso
+
 - Para acceder como administrador, utiliza las siguientes credenciales
-  [-]Email: admin@gmail.com
-  [-]Contraseña: reactjava1947
+  - Email: admin@gmail.com
+  - Contraseña: reactjava1947
 
 ### Usuarios:
 - Administrador: Registra a pacientes y médicos.

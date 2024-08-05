@@ -21,7 +21,7 @@ public class BackendApplication {
 
 			UserEntity userEntity = UserEntity.builder()
 					.email("admin@gmail.com")
-					.password("1234")
+					.password("reactjava1947")
 					.role("ADMIN")
 					.build();
 

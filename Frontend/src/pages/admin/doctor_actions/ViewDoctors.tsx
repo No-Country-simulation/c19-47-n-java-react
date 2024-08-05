@@ -27,14 +27,14 @@ const ViewDoctors = () => {
   return (
     <div className="w-full min-h-screen flex flex-col md:items-center bg-slate-200">
       <Header />
-      <div className="w-full lg:py-7 flex flex-col md:items-center">
-        <div className="w-full max-w-[1000px] flex flex-col sm:flex-row justify-between p-4 lg:py-7 lg:px-0 gap-2">
-          <h2 className="font-bold text-gray-700 text-3xl">Médicos</h2>
+      <div className="w-full lg:py-4 flex flex-col md:items-center">
+      <div className="w-full max-w-[1000px] flex flex-col sm:flex-row justify-between p-4 lg:py-7 lg:px-0 gap-2">
+       <h2 className="font-bold text-gray-700 text-3xl">Médicos</h2>
           <Link to="/admin/medicos/nuevo">
             <Button color="type-1">Registrar médico</Button>
           </Link>
         </div>
-        <div className="overflow-x-auto md:max-w-[1000px]">
+        <div className="overflow-x-auto w-full max-w-[1000px]">
           <table className="w-full bg-white rounded-lg divide-y divide-gray-300">
             <thead>
               <tr className="text-gray-700 font-bold text-sm">

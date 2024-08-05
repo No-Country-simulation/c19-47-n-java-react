@@ -45,9 +45,19 @@ const PatientRegister = () => {
   });
 
   const nextStep = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
     setStep(step + 1);
   };
-  const prevStep = () => setStep(step - 1);
+  const prevStep = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+    setStep(step - 1)
+  }
 
   const handleChange =
     (input: string, dataType: "patient" | "medical") =>
@@ -124,7 +134,7 @@ const PatientRegister = () => {
             return null;
         }
       })()}
-      <Footer/>
+      <Footer />
     </div>
   );
 };
